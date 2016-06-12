@@ -6,9 +6,6 @@ import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -34,6 +31,7 @@ public class MainWindow extends JFrame {
     private String saveFilePath = null;
     private JTextArea textAreaMarketSiteInfoFile = new JTextArea(8, 30);
     private JTextArea textAreaSiteAssignment = new JTextArea(8, 30);
+    private JTextArea textAreaGeneratedDNListFiles = new JTextArea(4, 60);
     private ArrayList<String> marketSiteInfoFileList = new ArrayList<String>();
     private ArrayList<String> siteAssignmentExportedFilesList = new ArrayList<String>();
 
@@ -152,44 +150,35 @@ public class MainWindow extends JFrame {
 
 	JPanel panel_2 = new JPanel();
 	midPanel.add(panel_2, BorderLayout.CENTER);
-	GridBagLayout gbl_panel_2 = new GridBagLayout();
-	gbl_panel_2.columnWidths = new int[] { 560, 0 };
-	gbl_panel_2.rowHeights = new int[] { 68, 73, 0 };
-	gbl_panel_2.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-	gbl_panel_2.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
-	panel_2.setLayout(gbl_panel_2);
+	panel_2.setLayout(new BorderLayout(0, 0));
+
+	JPanel panel_9 = new JPanel();
+	panel_2.add(panel_9, BorderLayout.NORTH);
 
 	JButton btnNewButton_1 = new JButton("Generate DN List File(s)");
-	GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-	gbc_btnNewButton_1.anchor = GridBagConstraints.NORTH;
-	gbc_btnNewButton_1.fill = GridBagConstraints.VERTICAL;
-	gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 0);
-	gbc_btnNewButton_1.gridx = 0;
-	gbc_btnNewButton_1.gridy = 0;
-	panel_2.add(btnNewButton_1, gbc_btnNewButton_1);
+	panel_9.add(btnNewButton_1);
 
 	JPanel panel_7 = new JPanel();
-	GridBagConstraints gbc_panel_7 = new GridBagConstraints();
-	gbc_panel_7.gridx = 0;
-	gbc_panel_7.gridy = 1;
-	panel_2.add(panel_7, gbc_panel_7);
-	panel_7.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+	panel_2.add(panel_7, BorderLayout.CENTER);
+	panel_7.setLayout(new BorderLayout(0, 0));
 
-	JLabel label = new JLabel("Site Assignment Exported Files:");
-	label.setVerticalAlignment(SwingConstants.TOP);
-	label.setHorizontalAlignment(SwingConstants.CENTER);
-	label.setFont(new Font("Tahoma", Font.BOLD, 11));
-	label.setAlignmentX(0.5f);
-	panel_7.add(label);
+	JLabel lblGeneratedDnList = new JLabel("Generated DN list files(s):");
+	lblGeneratedDnList.setVerticalAlignment(SwingConstants.TOP);
+	lblGeneratedDnList.setHorizontalAlignment(SwingConstants.CENTER);
+	lblGeneratedDnList.setFont(new Font("Tahoma", Font.BOLD, 11));
+	lblGeneratedDnList.setAlignmentX(0.5f);
+	panel_7.add(lblGeneratedDnList, BorderLayout.NORTH);
+
+	JPanel panel_8 = new JPanel();
+	panel_7.add(panel_8, BorderLayout.CENTER);
 
 	JScrollPane scrollPane_2 = new JScrollPane();
-	panel_7.add(scrollPane_2);
+	panel_8.add(scrollPane_2);
 
-	JTextArea textArea = new JTextArea(8, 30);
-	scrollPane_2.setViewportView(textArea);
-	textArea.setLineWrap(true);
-	textArea.setEditable(false);
-	textArea.setBackground(Color.GRAY);
+	scrollPane_2.setViewportView(textAreaGeneratedDNListFiles);
+	textAreaGeneratedDNListFiles.setLineWrap(true);
+	textAreaGeneratedDNListFiles.setEditable(false);
+	textAreaGeneratedDNListFiles.setBackground(Color.GRAY);
 
 	JTextArea txtrThisApplicationWill = new JTextArea();
 	midPanel.add(txtrThisApplicationWill, BorderLayout.SOUTH);
