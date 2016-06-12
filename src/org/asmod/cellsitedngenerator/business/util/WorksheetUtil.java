@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 
 public class WorksheetUtil {
     private WorksheetUtil() {
@@ -22,10 +22,13 @@ public class WorksheetUtil {
      * 
      * @param cellIndexToSave
      */
-    public static List<String> readWorksheetList(HSSFWorkbook workBook,
+    // public static List<String> readWorksheetList(HSSFWorkbook workBook, int
+    // cellIndexToSave, int sheetIndex) {
+    public static List<String> readWorksheetList(Workbook workBook,
 	    int cellIndexToSave, int sheetIndex) {
 
-	HSSFSheet sheet = workBook.getSheetAt(sheetIndex);
+	// HSSFSheet sheet = workBook.getSheetAt(sheetIndex);
+	Sheet sheet = workBook.getSheetAt(sheetIndex);
 	String stringCellValue = null;
 	List<String> siteIdList = new ArrayList<String>();
 
@@ -76,15 +79,16 @@ public class WorksheetUtil {
     /*
      * Reads a String, DNModel Map
      */
-    public static HashMap<String, String> readWorksheetMap(
-	    HSSFWorkbook workBook, int btsNameIndex, int btsDNIndex,
-	    int sheetIndex) {
+    // public static HashMap<String, String> readWorksheetMap( HSSFWorkbook
+    // workBook, int btsNameIndex, int btsDNIndex, int sheetIndex) {
+    public static HashMap<String, String> readWorksheetMap(Workbook workBook,
+	    int btsNameIndex, int btsDNIndex, int sheetIndex) {
 
-	HSSFSheet sheet = workBook.getSheetAt(sheetIndex);
+	// HSSFSheet sheet = workBook.getSheetAt(sheetIndex);
+	Sheet sheet = workBook.getSheetAt(sheetIndex);
 	String stringCellValue = null;
 	// List<String> siteIdList = new ArrayList<String>();
 	HashMap<String, String> btsNameBTSDNMap = new HashMap<String, String>();
-
 	for (Row row : sheet) {
 	    int cellIndexCount = 0;
 	    String btsName = "";

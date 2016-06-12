@@ -10,9 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -170,14 +168,22 @@ public class MainWindow extends JFrame {
 
 		ExcelFileService excelFileService = new ExcelFileServiceImpl();
 
-		Map<String, String> dnMap = excelFileService.getBTSNameBTSDNMap(
-			Constants.SAMPLE_FILEPATH_MARKET_SITE);
+		// List
+		/*
+		 * List<String> idList = excelFileService
+		 * .getSiteIdList(Constants.SAMPLE_FILEPATH_ASSIGNMENT); for
+		 * (String val : idList) { System.out.println("cell value is " +
+		 * val); }
+		 */
 
-		Collection<Entry<String, String>> set = dnMap.entrySet();
+		// Requires a file to be converted to xls
+		Map<String, String> btsMap = excelFileService
+			.getBTSNameBTSDNMap(
+				Constants.SAMPLE_FILEPATH_MARKET_SITE);
 
-		for (Entry<String, String> entry : set) {
-		    System.out.println(entry.getKey() + entry.getValue());
-		}
+		System.out.println("dnMap size: " + btsMap.size());
+		// TODO: compare idList vs dnMap;
+
 	    }
 	});
 	panel_9.add(btnGenerateDNList);
