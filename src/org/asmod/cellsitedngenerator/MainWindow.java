@@ -123,6 +123,7 @@ public class MainWindow extends JFrame {
 	JScrollPane scrollPane = new JScrollPane();
 
 	panel_5.add(scrollPane);
+	textAreaMarketSiteInfoFile.setWrapStyleWord(true);
 
 	scrollPane.setViewportView(textAreaMarketSiteInfoFile);
 	textAreaMarketSiteInfoFile.setLineWrap(true);
@@ -142,6 +143,7 @@ public class MainWindow extends JFrame {
 
 	JScrollPane scrollPane_1 = new JScrollPane();
 	panel_6.add(scrollPane_1);
+	textAreaSiteAssignment.setWrapStyleWord(true);
 	scrollPane_1.setViewportView(textAreaSiteAssignment);
 
 	textAreaSiteAssignment.setLineWrap(true);
@@ -174,6 +176,7 @@ public class MainWindow extends JFrame {
 
 	JScrollPane scrollPane_2 = new JScrollPane();
 	panel_8.add(scrollPane_2);
+	textAreaGeneratedDNListFiles.setWrapStyleWord(true);
 
 	scrollPane_2.setViewportView(textAreaGeneratedDNListFiles);
 	textAreaGeneratedDNListFiles.setLineWrap(true);
@@ -265,7 +268,7 @@ public class MainWindow extends JFrame {
 	    String selectedFiles = "";
 
 	    for (String filePath : files) {
-		selectedFiles += filePath + ";";
+		selectedFiles += filePath + "\n";
 
 	    }
 	    textArea.setText(selectedFiles);
