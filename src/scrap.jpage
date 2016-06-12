@@ -1,5 +1,9 @@
 #System.out.println("HELLO SCRAP")
-#Refactor to get 1 file only of marketsite info 
+
+#Refactor to get 1 file only of marketsite info - NO NEED Maybe useful if collecting from more multiple files
+
+#Show Error in another window If encountered Error
+
 #get siteid list from 1 assign file
 
 SiteID

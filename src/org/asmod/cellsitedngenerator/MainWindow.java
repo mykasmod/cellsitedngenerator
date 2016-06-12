@@ -135,10 +135,10 @@ public class MainWindow extends JFrame {
 	panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.Y_AXIS));
 
 	JLabel lblNewLabel_2 = new JLabel("Site Assignment Exported Files:");
+	lblNewLabel_2.setAlignmentX(Component.CENTER_ALIGNMENT);
 	lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
 	lblNewLabel_2.setVerticalAlignment(SwingConstants.TOP);
 	panel_6.add(lblNewLabel_2);
-	lblNewLabel_2.setAlignmentX(Component.CENTER_ALIGNMENT);
 	lblNewLabel_2.setHorizontalAlignment(SwingConstants.LEFT);
 
 	JScrollPane scrollPane_1 = new JScrollPane();
@@ -157,8 +157,14 @@ public class MainWindow extends JFrame {
 	JPanel panel_9 = new JPanel();
 	panel_2.add(panel_9, BorderLayout.NORTH);
 
-	JButton btnNewButton_1 = new JButton("Generate DN List File(s)");
-	panel_9.add(btnNewButton_1);
+	JButton btnGenerateDNList = new JButton("Generate DN List File(s)");
+	btnGenerateDNList.addActionListener(new ActionListener() {
+	    public void actionPerformed(ActionEvent e) {
+		// TODO: business logic
+
+	    }
+	});
+	panel_9.add(btnGenerateDNList);
 
 	JPanel panel_7 = new JPanel();
 	panel_2.add(panel_7, BorderLayout.CENTER);
