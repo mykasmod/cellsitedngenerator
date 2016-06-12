@@ -58,7 +58,7 @@ public class MainWindow extends JFrame {
 	setTitle("Powered by Java Swing, Apache POI");
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	setSize(600, 500);
+	setSize(780, 450);
 	setLocationRelativeTo(null);
 
 	contentPane = new JPanel();
