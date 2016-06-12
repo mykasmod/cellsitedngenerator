@@ -4,7 +4,7 @@
 
 #Show Error in another window If encountered Error
 
-#get siteid list from 1 assign file
+#get siteid list from 1 assign file - DONE
 
 SiteID
 6BI1006A
@@ -12,7 +12,7 @@ SiteID
 
 #get unique id, <important column>
 
-        #get unique id, BTN_DN, BCF_DN
+        #get unique id(BCF_NAME), BTS_DN, BCF_DN
         #2g
         BCF_NAME
         6BI1006A

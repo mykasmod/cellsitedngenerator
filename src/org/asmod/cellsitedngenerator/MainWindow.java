@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -21,6 +24,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import org.asmod.cellsitedngenerator.business.ExcelFileService;
+import org.asmod.cellsitedngenerator.business.ExcelFileServiceImpl;
 
 public class MainWindow extends JFrame {
 
@@ -162,6 +168,16 @@ public class MainWindow extends JFrame {
 	    public void actionPerformed(ActionEvent e) {
 		// TODO: business logic
 
+		ExcelFileService excelFileService = new ExcelFileServiceImpl();
+
+		Map<String, String> dnMap = excelFileService.getBTSNameBTSDNMap(
+			Constants.SAMPLE_FILEPATH_MARKET_SITE);
+
+		Collection<Entry<String, String>> set = dnMap.entrySet();
+
+		for (Entry<String, String> entry : set) {
+		    System.out.println(entry.getKey() + entry.getValue());
+		}
 	    }
 	});
 	panel_9.add(btnGenerateDNList);
@@ -239,12 +255,8 @@ public class MainWindow extends JFrame {
 	if (fileChooser.showOpenDialog(
 		MainWindow.this) == JFileChooser.APPROVE_OPTION) {
 	    try {
-		// System.out.println("You have selected " +
-		// fileChooser.getSelectedFiles().length + " files");
 		setCurrentDirectory(
 			fileChooser.getCurrentDirectory().toString());
-		// TODO: Remove this later to enable browing one file at
-		// a time. For Now: Clearing previous selection
 		fileList.clear();
 		Integer counter = 0;
 		for (File file : fileChooser.getSelectedFiles()) {
@@ -255,16 +267,15 @@ public class MainWindow extends JFrame {
 		    }
 
 		}
+
+		// Do it here
 		if (fileList.size() > 0) {
 		    setTextAreaText(fileList, textArea);
 		    setList(fileList, textArea);
 		}
 
-		// FileReader inputFile = new FileReader(openFile);
-		// Do POI implementation here
-
 	    } catch (Exception ex) {
-		System.err.println("I/O error occurred" + ex.getMessage());
+		System.err.println("I/O error occurred " + ex.getMessage());
 	    }
 	}
     }

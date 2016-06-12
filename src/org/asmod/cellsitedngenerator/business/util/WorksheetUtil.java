@@ -1,6 +1,7 @@
 package org.asmod.cellsitedngenerator.business.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -21,15 +22,15 @@ public class WorksheetUtil {
      * 
      * @param cellIndexToSave
      */
-    public static List<String> readWorksheet(HSSFWorkbook workBook,
-	    int cellIndexToSave) {
+    public static List<String> readWorksheetList(HSSFWorkbook workBook,
+	    int cellIndexToSave, int sheetIndex) {
 
-	HSSFSheet sheet = workBook.getSheetAt(0);
+	HSSFSheet sheet = workBook.getSheetAt(sheetIndex);
 	String stringCellValue = null;
 	List<String> siteIdList = new ArrayList<String>();
 
 	for (Row row : sheet) {
-	    int cellIndex = 0;
+	    int cellIndexCount = 0;
 	    for (Cell cell : row) {
 		switch (cell.getCellType()) {
 		case Cell.CELL_TYPE_STRING:
@@ -56,10 +57,10 @@ public class WorksheetUtil {
 		default:
 		}
 
-		if (cellIndex == cellIndexToSave) {
+		if (cellIndexCount == cellIndexToSave) {
 		    siteIdList.add(stringCellValue);
 		}
-		cellIndex++;
+		cellIndexCount++;
 
 	    }
 	}
@@ -72,4 +73,61 @@ public class WorksheetUtil {
 	return siteidList;
     }
 
+    /*
+     * Reads a String, DNModel Map
+     */
+    public static HashMap<String, String> readWorksheetMap(
+	    HSSFWorkbook workBook, int btsNameIndex, int btsDNIndex,
+	    int sheetIndex) {
+
+	HSSFSheet sheet = workBook.getSheetAt(sheetIndex);
+	String stringCellValue = null;
+	// List<String> siteIdList = new ArrayList<String>();
+	HashMap<String, String> btsNameBTSDNMap = new HashMap<String, String>();
+
+	for (Row row : sheet) {
+	    int cellIndexCount = 0;
+	    String btsName = "";
+	    String btsDN = "";
+	    for (Cell cell : row) {
+		switch (cell.getCellType()) {
+		case Cell.CELL_TYPE_STRING:
+		    stringCellValue = cell.getRichStringCellValue().getString();
+		    break;
+		case Cell.CELL_TYPE_NUMERIC:
+		    if (DateUtil.isCellDateFormatted(cell)) {
+			stringCellValue = cell.getDateCellValue().toString();
+
+		    } else {
+			stringCellValue = Double
+				.toString(cell.getNumericCellValue());
+		    }
+		    break;
+		case Cell.CELL_TYPE_BOOLEAN:
+		    stringCellValue = Boolean
+			    .toString(cell.getBooleanCellValue());
+
+		    break;
+		case Cell.CELL_TYPE_FORMULA:
+		    stringCellValue = cell.getCellFormula().toString();
+
+		    break;
+		default:
+		}
+
+		if (cellIndexCount == btsNameIndex) {
+		    btsName = stringCellValue;
+		}
+
+		if (cellIndexCount == btsDNIndex) {
+		    btsDN = stringCellValue;
+		}
+
+		cellIndexCount++;
+	    }
+	    btsNameBTSDNMap.put(btsName, btsDN);
+	}
+
+	return btsNameBTSDNMap;
+    }
 }
