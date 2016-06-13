@@ -42,6 +42,7 @@ public class MainWindow extends JFrame {
 
     private JProgressBar progressBar = new JProgressBar();
     private Task task;
+    private JButton btnGenerateDNList = new JButton("Generate DN List File(s)");
 
     /**
      * Launch the application.
@@ -166,12 +167,12 @@ public class MainWindow extends JFrame {
 	JPanel panel_9 = new JPanel();
 	panel_2.add(panel_9, BorderLayout.NORTH);
 
-	JButton btnGenerateDNList = new JButton("Generate DN List File(s)");
 	btnGenerateDNList.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		// TODO: business logic
-		// TODO: Progress Bar
-		// TODO: Status Bar "to show log messages"
+		// TODO: Improve progress and thread using Swingworker
+
+		btnGenerateDNList.setText("Generating DN List...");
 
 		progressBar.setValue(0);
 		task = new Task();
@@ -316,11 +317,15 @@ public class MainWindow extends JFrame {
 			generatedFile = excelFileService
 				.generateDNFile(siteAssignFile, marketSiteFile);
 			generatedFileList.add(generatedFile);
+
 		    }
+
 		}
 
 		setTextAreaText(generatedFileList,
 			textAreaGeneratedDNListFiles);
+
+		btnGenerateDNList.setText("Generate DN List File(s)");
 	    }
 
 	    for (int i = 0; i <= 100; i += 10) {
