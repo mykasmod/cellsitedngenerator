@@ -18,9 +18,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import org.asmod.cellsitedngenerator.business.ExcelFileService;
@@ -32,12 +34,14 @@ public class MainWindow extends JFrame {
     private JFileChooser fileChooser;
     private String currentDirectory = "";
 
-    private String saveFilePath = null;
     private JTextArea textAreaMarketSiteInfoFile = new JTextArea(8, 30);
     private JTextArea textAreaSiteAssignment = new JTextArea(8, 30);
     private JTextArea textAreaGeneratedDNListFiles = new JTextArea(4, 60);
     private List<String> marketSiteInfoFileList = new ArrayList<String>();
     private List<String> siteAssignmentExportedFilesList = new ArrayList<String>();
+
+    private JProgressBar progressBar = new JProgressBar();
+    private Task task;
 
     /**
      * Launch the application.
@@ -166,29 +170,12 @@ public class MainWindow extends JFrame {
 	btnGenerateDNList.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		// TODO: business logic
-		// TODO: Multi thread
 		// TODO: Progress Bar
 		// TODO: Status Bar "to show log messages"
 
-		if ((marketSiteInfoFileList.size() > 0)
-			&& (siteAssignmentExportedFilesList.size() > 0)) {
-
-		    ExcelFileService excelFileService = new ExcelFileServiceImpl();
-		    List<String> generatedFileList = new ArrayList<String>();
-		    String generatedFile = null;
-
-		    for (String marketSiteFile : marketSiteInfoFileList) {
-			for (String siteAssignFile : siteAssignmentExportedFilesList) {
-			    generatedFile = excelFileService.generateDNFile(
-				    siteAssignFile, marketSiteFile);
-			    generatedFileList.add(generatedFile);
-			}
-		    }
-
-		    setTextAreaText(generatedFileList,
-			    textAreaGeneratedDNListFiles);
-
-		}
+		progressBar.setValue(0);
+		task = new Task();
+		task.start();
 
 	    }
 	});
@@ -199,11 +186,11 @@ public class MainWindow extends JFrame {
 	panel_7.setLayout(new BorderLayout(0, 0));
 
 	JLabel lblGeneratedDnList = new JLabel("Generated DN list files(s):");
+	panel_7.add(lblGeneratedDnList, BorderLayout.NORTH);
 	lblGeneratedDnList.setVerticalAlignment(SwingConstants.TOP);
 	lblGeneratedDnList.setHorizontalAlignment(SwingConstants.CENTER);
 	lblGeneratedDnList.setFont(new Font("Tahoma", Font.BOLD, 11));
 	lblGeneratedDnList.setAlignmentX(0.5f);
-	panel_7.add(lblGeneratedDnList, BorderLayout.NORTH);
 
 	JPanel panel_8 = new JPanel();
 	panel_7.add(panel_8, BorderLayout.CENTER);
@@ -216,6 +203,13 @@ public class MainWindow extends JFrame {
 	textAreaGeneratedDNListFiles.setLineWrap(true);
 	textAreaGeneratedDNListFiles.setEditable(false);
 	textAreaGeneratedDNListFiles.setBackground(Color.GRAY);
+
+	JPanel panel_10 = new JPanel();
+	panel_7.add(panel_10, BorderLayout.SOUTH);
+
+	progressBar.setValue(0);
+	progressBar.setStringPainted(true);
+	panel_10.add(progressBar);
 
 	JTextArea txtrThisApplicationWill = new JTextArea();
 	midPanel.add(txtrThisApplicationWill, BorderLayout.SOUTH);
@@ -239,10 +233,6 @@ public class MainWindow extends JFrame {
 
     private void setCurrentDirectory(String currentDirectory) {
 	this.currentDirectory = currentDirectory;
-    }
-
-    private void setSaveFilePath(String saveFilePath) {
-	this.saveFilePath = saveFilePath;
     }
 
     private void setTextAreaText(List<String> files, JTextArea textArea) {
@@ -307,4 +297,54 @@ public class MainWindow extends JFrame {
 	}
     }
 
+    private class Task extends Thread {
+	public Task() {
+
+	}
+
+	public void run() {
+
+	    if ((marketSiteInfoFileList.size() > 0)
+		    && (siteAssignmentExportedFilesList.size() > 0)) {
+
+		ExcelFileService excelFileService = new ExcelFileServiceImpl();
+		List<String> generatedFileList = new ArrayList<String>();
+		String generatedFile = null;
+
+		for (String marketSiteFile : marketSiteInfoFileList) {
+		    for (String siteAssignFile : siteAssignmentExportedFilesList) {
+			generatedFile = excelFileService
+				.generateDNFile(siteAssignFile, marketSiteFile);
+			generatedFileList.add(generatedFile);
+		    }
+		}
+
+		setTextAreaText(generatedFileList,
+			textAreaGeneratedDNListFiles);
+	    }
+
+	    for (int i = 0; i <= 100; i += 10) {
+		final int progress = i;
+		SwingUtilities.invokeLater(new Runnable() {
+		    public void run() {
+			progressBar.setValue(progress);
+			/*
+			 * outputTextArea.setText(outputTextArea.getText() +
+			 * String.format("Completed %d%% of task.\n",
+			 * progress));
+			 */
+
+		    }
+		});
+
+		try {
+		    Thread.sleep(100);
+		} catch (InterruptedException e) {
+		}
+
+	    }
+
+	}
+
+    }
 }
