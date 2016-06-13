@@ -1,7 +1,9 @@
 package org.asmod.cellsitedngenerator.business;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.poi.ss.usermodel.Workbook;
@@ -102,9 +104,35 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 		cleanKey = key.substring(1, 9);
 		cleanMap.put(cleanKey, entry.getValue());
 	    }
-	    System.out.println("46 Clean key: " + cleanKey);
 	}
 	return cleanMap;
+    }
+
+    /*
+     * Get Merged DN List of all network Map
+     */
+    @Override
+    public List<String> getMergedDNList(Map<String, String> twoGMap,
+	    Map<String, String> threeGMap, Map<String, String> fourGMap,
+	    List<String> siteIdList) {
+	List<String> mergedDNList = new ArrayList<String>();
+	mergedDNList.addAll(getDNListMatchedSiteID(twoGMap, siteIdList));
+	mergedDNList.addAll(getDNListMatchedSiteID(threeGMap, siteIdList));
+	mergedDNList.addAll(getDNListMatchedSiteID(fourGMap, siteIdList));
+
+	return mergedDNList;
+    }
+
+    private List<String> getDNListMatchedSiteID(Map<String, String> gMap,
+	    List<String> siteIdList) {
+	List<String> dnList = new ArrayList<String>();
+	for (String siteId : siteIdList) {
+	    if (gMap.containsKey(siteId)) {
+		dnList.add(gMap.get(siteId));
+	    }
+	}
+
+	return dnList;
     }
 
 }

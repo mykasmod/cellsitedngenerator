@@ -170,7 +170,7 @@ public class MainWindow extends JFrame {
 		ExcelFileService excelFileService = new ExcelFileServiceImpl();
 
 		// List
-		List<String> idList = excelFileService
+		List<String> siteIdList = excelFileService
 			.getSiteIdList(Constants.SAMPLE_FILEPATH_ASSIGNMENT);
 
 		// Map 2G
@@ -185,21 +185,12 @@ public class MainWindow extends JFrame {
 		Map<String, String> fourGMap = excelFileService
 			.getLNCELDNMap(Constants.SAMPLE_FILEPATH_MARKET_SITE);
 
-		// TODO: compare idList vs all gMap;
+		List<String> combinedDNList = combinedDNList = excelFileService
+			.getMergedDNList(twoGMap, threeGMap, fourGMap,
+				siteIdList);
+
+		// TODO: compare idList vs all GMap one by one into a commonList
 		// TODO: Save to excel aftr all other 2 added to map
-
-		Map<String, String> gMap = fourGMap;
-
-		int matchedId = 0;
-		for (String id : idList) {
-
-		    if (gMap.containsKey(id)) {
-			matchedId++;
-			System.out.println("Map contains: " + id + ""
-				+ " with value: " + gMap.get(id));
-		    }
-		}
-		System.out.println("total matched: " + matchedId);
 
 	    }
 	});
