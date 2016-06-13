@@ -10,4 +10,6 @@ public interface ExcelFileService {
     public HashMap<String, String> getBTSBCFNameBTSBCFDNMap(String filePath);
 
     public HashMap<String, String> getWBTSDNMap(String filePath);
+
+    public HashMap<String, String> getLNCELDNMap(String filePath);
 }

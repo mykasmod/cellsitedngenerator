@@ -13,8 +13,6 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 
     @Override
     public List<String> getSiteIdList(String filePath) {
-	// HSSFWorkbook workBook =
-	// WorkbookFileUtil.getWorkBookFromFilePath(filePath);
 	Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
 
 	List<String> siteIdList = WorksheetUtil.readWorksheetList(workBook,
@@ -30,9 +28,6 @@ public class ExcelFileServiceImpl implements ExcelFileService {
      */
     @Override
     public HashMap<String, String> getBTSBCFNameBTSBCFDNMap(String filePath) {
-	// HSSFWorkbook workBook =
-	// WorkbookFileUtil.getWorkBookFromFilePath(filePath);
-
 	Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
 
 	HashMap<String, String> btsNameBTSDNMap = WorksheetUtil
@@ -61,21 +56,53 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 		workBook, Constants.THREE_G_WBTS_NAME_CELL_INDEX,
 		Constants.THREE_G_DN_CELL_INDEX, Constants.THREE_G_SHEET_INDEX);
 
-	return cleanWBTSKey(wBTSDNMap);
+	return cleanWBTSDNKey(wBTSDNMap);
     }
 
-    private HashMap<String, String> cleanWBTSKey(HashMap<String, String> map) {
+    private HashMap<String, String> cleanWBTSDNKey(
+	    HashMap<String, String> map) {
 
 	HashMap<String, String> cleanMap = new HashMap<String, String>();
 	String cleanKey = null;
 
 	for (Entry<String, String> entry : map.entrySet()) {
-	    // .substring(1);
 	    String key = entry.getKey();
 	    if (!key.equals(null) && key.length() > 8) {
 		cleanKey = key.substring(1);
 		cleanMap.put(cleanKey, entry.getValue());
 	    }
+	}
+	return cleanMap;
+    }
+
+    /*
+     * Get 4G Map
+     * 
+     */
+    @Override
+    public HashMap<String, String> getLNCELDNMap(String filePath) {
+	Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
+
+	HashMap<String, String> lncelDNMap = WorksheetUtil.readWorksheetMap(
+		workBook, Constants.FOUR_G_LNCELL_NAME_INDEX,
+		Constants.FOUR_G_LNCEL_DN_INDEX, Constants.FOUR_G_SHEET_INDEX);
+
+	return cleanLNCELDNKey(lncelDNMap);
+    }
+
+    private HashMap<String, String> cleanLNCELDNKey(
+	    HashMap<String, String> map) {
+
+	HashMap<String, String> cleanMap = new HashMap<String, String>();
+	String cleanKey = null;
+
+	for (Entry<String, String> entry : map.entrySet()) {
+	    String key = entry.getKey();
+	    if (!key.equals(null) && key.length() > 8) {
+		cleanKey = key.substring(1, 9);
+		cleanMap.put(cleanKey, entry.getValue());
+	    }
+	    System.out.println("46 Clean key: " + cleanKey);
 	}
 	return cleanMap;
     }

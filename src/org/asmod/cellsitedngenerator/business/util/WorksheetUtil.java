@@ -22,12 +22,9 @@ public class WorksheetUtil {
      * 
      * @param cellIndexToSave
      */
-    // public static List<String> readWorksheetList(HSSFWorkbook workBook, int
-    // cellIndexToSave, int sheetIndex) {
     public static List<String> readWorksheetList(Workbook workBook,
 	    int cellIndexToSave, int sheetIndex) {
 
-	// HSSFSheet sheet = workBook.getSheetAt(sheetIndex);
 	Sheet sheet = workBook.getSheetAt(sheetIndex);
 	String stringCellValue = null;
 	List<String> siteIdList = new ArrayList<String>();
@@ -85,15 +82,11 @@ public class WorksheetUtil {
      * 
      * @param sheetIndex
      */
-    // public static HashMap<String, String> readWorksheetMap( HSSFWorkbook
-    // workBook, int btsNameIndex, int btsDNIndex, int sheetIndex) {
     public static HashMap<String, String> readWorksheetMap(Workbook workBook,
 	    int btsNameIndex, int btsDNIndex, int sheetIndex) {
 
-	// HSSFSheet sheet = workBook.getSheetAt(sheetIndex);
 	Sheet sheet = workBook.getSheetAt(sheetIndex);
 	String stringCellValue = null;
-	// List<String> siteIdList = new ArrayList<String>();
 	HashMap<String, String> btsNameBTSDNMap = new HashMap<String, String>();
 	for (Row row : sheet) {
 	    int cellIndexCount = 0;

@@ -181,10 +181,14 @@ public class MainWindow extends JFrame {
 		Map<String, String> threeGMap = excelFileService
 			.getWBTSDNMap(Constants.SAMPLE_FILEPATH_MARKET_SITE);
 
-		// TODO: compare idList vs dnMap;
+		// Map 4G
+		Map<String, String> fourGMap = excelFileService
+			.getLNCELDNMap(Constants.SAMPLE_FILEPATH_MARKET_SITE);
+
+		// TODO: compare idList vs all gMap;
 		// TODO: Save to excel aftr all other 2 added to map
 
-		Map<String, String> gMap = threeGMap;
+		Map<String, String> gMap = fourGMap;
 
 		int matchedId = 0;
 		for (String id : idList) {
