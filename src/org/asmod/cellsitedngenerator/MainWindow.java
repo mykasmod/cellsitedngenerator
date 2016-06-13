@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.BoxLayout;
@@ -169,20 +170,32 @@ public class MainWindow extends JFrame {
 		ExcelFileService excelFileService = new ExcelFileServiceImpl();
 
 		// List
-		/*
-		 * List<String> idList = excelFileService
-		 * .getSiteIdList(Constants.SAMPLE_FILEPATH_ASSIGNMENT); for
-		 * (String val : idList) { System.out.println("cell value is " +
-		 * val); }
-		 */
+		List<String> idList = excelFileService
+			.getSiteIdList(Constants.SAMPLE_FILEPATH_ASSIGNMENT);
 
-		// Requires a file to be converted to xls
-		Map<String, String> btsMap = excelFileService
-			.getBTSNameBTSDNMap(
+		// Map 2G
+		Map<String, String> twoGMap = excelFileService
+			.getBTSBCFNameBTSBCFDNMap(
 				Constants.SAMPLE_FILEPATH_MARKET_SITE);
+		// Map 3G
+		Map<String, String> threeGMap = excelFileService
+			.getWBTSDNMap(Constants.SAMPLE_FILEPATH_MARKET_SITE);
 
-		System.out.println("dnMap size: " + btsMap.size());
 		// TODO: compare idList vs dnMap;
+		// TODO: Save to excel aftr all other 2 added to map
+
+		Map<String, String> gMap = threeGMap;
+
+		int matchedId = 0;
+		for (String id : idList) {
+
+		    if (gMap.containsKey(id)) {
+			matchedId++;
+			System.out.println("Map contains: " + id + ""
+				+ " with value: " + gMap.get(id));
+		    }
+		}
+		System.out.println("total matched: " + matchedId);
 
 	    }
 	});

@@ -14,6 +14,9 @@ public interface Constants {
     public static int TWO_G_BTS_DN_CELL_INDEX = 2;
     public static int TWO_G_BCF_DN_CELL_INDEX = 4;
 
+    public static int THREE_G_WBTS_NAME_CELL_INDEX = 0;
+    public static int THREE_G_DN_CELL_INDEX = 15;
+
     public static String SAMPLE_FILEPATH_ASSIGNMENT = "C:\\Users\\myk\\Downloads\\attachments_2016_06_11\\2.xls";
-    public static String SAMPLE_FILEPATH_MARKET_SITE = "C:\\Users\\myk\\Downloads\\attachments_2016_06_11\\2gonly.xls";
+    public static String SAMPLE_FILEPATH_MARKET_SITE = "C:\\Users\\myk\\Downloads\\attachments_2016_06_11\\2G_3G_4G_MarketSiteInfo_06 10 16.xls";
 }
