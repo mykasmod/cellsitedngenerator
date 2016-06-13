@@ -133,4 +133,69 @@ public class WorksheetUtil {
 
 	return btsNameBTSDNMap;
     }
+
+    /*
+     * Get the Assignee Name Cell Value List. We're Interested in 2nd Item Only
+     */
+
+    public static String getAssigneeName(Workbook workBook, int cellIndexToSave,
+	    int sheetIndex) {
+	Sheet sheet = workBook.getSheetAt(sheetIndex);
+	String stringCellValue = null;
+	List<String> assigneeList = new ArrayList<String>();
+
+	int rowCount = 0;
+	labelRow: for (Row row : sheet) {
+	    int cellIndexCount = 0;
+	    for (Cell cell : row) {
+		switch (cell.getCellType()) {
+		case Cell.CELL_TYPE_STRING:
+		    stringCellValue = cell.getRichStringCellValue().getString();
+		    break;
+		case Cell.CELL_TYPE_NUMERIC:
+		    if (DateUtil.isCellDateFormatted(cell)) {
+			stringCellValue = cell.getDateCellValue().toString();
+
+		    } else {
+			stringCellValue = Double
+				.toString(cell.getNumericCellValue());
+		    }
+		    break;
+		case Cell.CELL_TYPE_BOOLEAN:
+		    stringCellValue = Boolean
+			    .toString(cell.getBooleanCellValue());
+
+		    break;
+		case Cell.CELL_TYPE_FORMULA:
+		    stringCellValue = cell.getCellFormula().toString();
+
+		    break;
+		default:
+		}
+
+		if (cellIndexCount == cellIndexToSave) {
+		    assigneeList.add(stringCellValue);
+		    if (rowCount == 1) {
+			break labelRow; // we've got the name from 2nd row, exit
+					// iteration
+		    }
+		}
+		cellIndexCount++;
+
+	    }
+
+	    rowCount++;
+	}
+
+	return getAssigneeName(assigneeList);
+    }
+
+    private static String getAssigneeName(List<String> assigneeList) {
+	String assigneeName = null;
+	if (assigneeList.size() > 0) {
+	    assigneeName = assigneeList.get(1);
+	}
+
+	return assigneeName;
+    }
 }

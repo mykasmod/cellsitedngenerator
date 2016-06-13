@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -32,13 +31,13 @@ public class MainWindow extends JFrame {
     private JPanel contentPane;
     private JFileChooser fileChooser;
     private String currentDirectory = "";
-    private ArrayList<String> fileList = new ArrayList<String>();
+
     private String saveFilePath = null;
     private JTextArea textAreaMarketSiteInfoFile = new JTextArea(8, 30);
     private JTextArea textAreaSiteAssignment = new JTextArea(8, 30);
     private JTextArea textAreaGeneratedDNListFiles = new JTextArea(4, 60);
-    private ArrayList<String> marketSiteInfoFileList = new ArrayList<String>();
-    private ArrayList<String> siteAssignmentExportedFilesList = new ArrayList<String>();
+    private List<String> marketSiteInfoFileList = new ArrayList<String>();
+    private List<String> siteAssignmentExportedFilesList = new ArrayList<String>();
 
     /**
      * Launch the application.
@@ -87,19 +86,20 @@ public class MainWindow extends JFrame {
 	nortPanel.add(panel_4);
 	panel_4.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-	JButton btnNewButton = new JButton("Browse Market Site Info File...");
-	btnNewButton.addActionListener(new ActionListener() {
+	JButton btnBrowseMarketSiteInfo = new JButton(
+		"Browse Market Site Info File...");
+	btnBrowseMarketSiteInfo.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
-		fileChooser(textAreaMarketSiteInfoFile);
+		fileChooser(textAreaMarketSiteInfoFile, Constants.MARKET);
 	    }
 	});
-	panel_4.add(btnNewButton);
+	panel_4.add(btnBrowseMarketSiteInfo);
 
 	JButton btnBrowseSiteAssignment = new JButton(
 		"Browse Site Assignment Exported Files...");
 	btnBrowseSiteAssignment.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
-		fileChooser(textAreaSiteAssignment);
+		fileChooser(textAreaSiteAssignment, Constants.ASSIGNMENT);
 	    }
 	});
 	panel_4.add(btnBrowseSiteAssignment);
@@ -166,31 +166,29 @@ public class MainWindow extends JFrame {
 	btnGenerateDNList.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		// TODO: business logic
+		// TODO: Multi thread
+		// TODO: Progress Bar
+		// TODO: Status Bar "to show log messages"
 
-		ExcelFileService excelFileService = new ExcelFileServiceImpl();
+		if ((marketSiteInfoFileList.size() > 0)
+			&& (siteAssignmentExportedFilesList.size() > 0)) {
 
-		// List
-		List<String> siteIdList = excelFileService
-			.getSiteIdList(Constants.SAMPLE_FILEPATH_ASSIGNMENT);
+		    ExcelFileService excelFileService = new ExcelFileServiceImpl();
+		    List<String> generatedFileList = new ArrayList<String>();
+		    String generatedFile = null;
 
-		// Map 2G
-		Map<String, String> twoGMap = excelFileService
-			.getBTSBCFNameBTSBCFDNMap(
-				Constants.SAMPLE_FILEPATH_MARKET_SITE);
-		// Map 3G
-		Map<String, String> threeGMap = excelFileService
-			.getWBTSDNMap(Constants.SAMPLE_FILEPATH_MARKET_SITE);
+		    for (String marketSiteFile : marketSiteInfoFileList) {
+			for (String siteAssignFile : siteAssignmentExportedFilesList) {
+			    generatedFile = excelFileService.generateDNFile(
+				    siteAssignFile, marketSiteFile);
+			    generatedFileList.add(generatedFile);
+			}
+		    }
 
-		// Map 4G
-		Map<String, String> fourGMap = excelFileService
-			.getLNCELDNMap(Constants.SAMPLE_FILEPATH_MARKET_SITE);
+		    setTextAreaText(generatedFileList,
+			    textAreaGeneratedDNListFiles);
 
-		List<String> combinedDNList = combinedDNList = excelFileService
-			.getMergedDNList(twoGMap, threeGMap, fourGMap,
-				siteIdList);
-
-		// TODO: compare idList vs all GMap one by one into a commonList
-		// TODO: Save to excel aftr all other 2 added to map
+		}
 
 	    }
 	});
@@ -237,30 +235,45 @@ public class MainWindow extends JFrame {
 	label_1.setFont(new Font("Tahoma", Font.PLAIN, 10));
 	panel.add(label_1);
 
-	JLabel lblNewLabel_1 = new JLabel("New label");
-
-    }
-
-    private String getCurrentDirectory() {
-	return currentDirectory;
     }
 
     private void setCurrentDirectory(String currentDirectory) {
 	this.currentDirectory = currentDirectory;
     }
 
-    private String getSaveFilePath() {
-	return saveFilePath;
-    }
-
     private void setSaveFilePath(String saveFilePath) {
 	this.saveFilePath = saveFilePath;
     }
 
-    private void fileChooser(JTextArea textArea) {
+    private void setTextAreaText(List<String> files, JTextArea textArea) {
+	if (files.size() > 0) {
+	    String selectedFiles = "";
+
+	    for (String filePath : files) {
+		selectedFiles += filePath + "\n";
+
+	    }
+	    textArea.setText(selectedFiles);
+	}
+    }
+
+    private void setList(List<String> fileList, String siteTypeFlag) {
+
+	if (Constants.MARKET.equals(siteTypeFlag)) {
+	    marketSiteInfoFileList = fileList;
+	}
+
+	if (Constants.ASSIGNMENT.equals(siteTypeFlag)) {
+	    siteAssignmentExportedFilesList = fileList;
+	}
+
+    }
+
+    private void fileChooser(JTextArea textArea, String fileTypeFlag) {
 
 	fileChooser = new JFileChooser();
 	fileChooser.setMultiSelectionEnabled(true);
+	List<String> fileList = new ArrayList<String>();
 
 	if (!(currentDirectory.equals(null)) && currentDirectory.length() > 1) {
 	    File dir = new File(currentDirectory);
@@ -276,44 +289,22 @@ public class MainWindow extends JFrame {
 		for (File file : fileChooser.getSelectedFiles()) {
 		    counter++;
 		    fileList.add(file.getAbsolutePath());
-		    if (counter == 1) {
-			setSaveFilePath(file.getParent());
-		    }
+		    /*
+		     * if (counter == 1) { setSaveFilePath(file.getParent()); }
+		     */
 
 		}
 
 		// Do it here
 		if (fileList.size() > 0) {
 		    setTextAreaText(fileList, textArea);
-		    setList(fileList, textArea);
+		    setList(fileList, fileTypeFlag);
 		}
 
 	    } catch (Exception ex) {
 		System.err.println("I/O error occurred " + ex.getMessage());
 	    }
 	}
-    }
-
-    private void setTextAreaText(ArrayList<String> files, JTextArea textArea) {
-	if (files.size() > 0) {
-	    String selectedFiles = "";
-
-	    for (String filePath : files) {
-		selectedFiles += filePath + "\n";
-
-	    }
-	    textArea.setText(selectedFiles);
-	}
-    }
-
-    private void setList(ArrayList<String> fileList, JTextArea textArea) {
-
-	if (textArea.equals(textAreaMarketSiteInfoFile)) {
-	    marketSiteInfoFileList = fileList;
-	} else if (textArea.equals(textAreaSiteAssignment)) {
-	    siteAssignmentExportedFilesList = fileList;
-	}
-
     }
 
 }

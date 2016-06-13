@@ -17,4 +17,9 @@ public interface ExcelFileService {
     public List<String> getMergedDNList(Map<String, String> twoGMap,
 	    Map<String, String> threeGMap, Map<String, String> fourGMap,
 	    List<String> siteIdList);
+
+    public String getOutputFileName(String filePath);
+
+    public String generateDNFile(String assignmentFilePath,
+	    String marketSiteFilePath);
 }

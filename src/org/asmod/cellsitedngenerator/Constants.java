@@ -20,6 +20,13 @@ public interface Constants {
     public static int FOUR_G_LNCELL_NAME_INDEX = 0;
     public static int FOUR_G_LNCEL_DN_INDEX = 2;
 
+    public static int ASSIGNEE_CELL_INDEX = 6;
+    public static String FILE_EXTENSION = "xls";
+
+    public static String MARKET = "market";
+    public static String ASSIGNMENT = "assignment";
+
     public static String SAMPLE_FILEPATH_ASSIGNMENT = "C:\\Users\\myk\\Downloads\\attachments_2016_06_11\\2.xls";
     public static String SAMPLE_FILEPATH_MARKET_SITE = "C:\\Users\\myk\\Downloads\\attachments_2016_06_11\\2G_3G_4G_MarketSiteInfo_06 10 16.xls";
+    public static String SAMPLE_FILEPATH_ASSIGNMENT_OUTPUT = "C:\\Users\\myk\\Downloads\\attachments_2016_06_11\\2-Output.xls";
 }

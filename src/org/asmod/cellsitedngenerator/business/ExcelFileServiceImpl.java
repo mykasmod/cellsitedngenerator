@@ -13,7 +13,6 @@ import org.asmod.cellsitedngenerator.business.util.WorksheetUtil;
 
 public class ExcelFileServiceImpl implements ExcelFileService {
 
-    @Override
     public List<String> getSiteIdList(String filePath) {
 	Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
 
@@ -28,7 +27,6 @@ public class ExcelFileServiceImpl implements ExcelFileService {
     /*
      * Get 2G Combined BTS BCF Name and DN Map
      */
-    @Override
     public HashMap<String, String> getBTSBCFNameBTSBCFDNMap(String filePath) {
 	Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
 
@@ -50,7 +48,6 @@ public class ExcelFileServiceImpl implements ExcelFileService {
     /*
      * Get 3G WBTS DN Map
      */
-    @Override
     public HashMap<String, String> getWBTSDNMap(String filePath) {
 	Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
 
@@ -81,7 +78,6 @@ public class ExcelFileServiceImpl implements ExcelFileService {
      * Get 4G Map
      * 
      */
-    @Override
     public HashMap<String, String> getLNCELDNMap(String filePath) {
 	Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
 
@@ -111,7 +107,6 @@ public class ExcelFileServiceImpl implements ExcelFileService {
     /*
      * Get Merged DN List of all network Map
      */
-    @Override
     public List<String> getMergedDNList(Map<String, String> twoGMap,
 	    Map<String, String> threeGMap, Map<String, String> fourGMap,
 	    List<String> siteIdList) {
@@ -133,6 +128,55 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 	}
 
 	return dnList;
+    }
+
+    /*
+     * Get OutputFileName
+     */
+    public String getOutputFileName(String filePath) {
+	int lastIndexOfSlash = filePath.lastIndexOf('\\');
+	String outputFullFileName = filePath.substring(0, lastIndexOfSlash)
+		+ '\\' + getAssigneeName(filePath) + "."
+		+ Constants.FILE_EXTENSION;
+	return outputFullFileName;
+    }
+
+    private String getAssigneeName(String filePath) {
+	Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
+
+	String assigneeName = WorksheetUtil.getAssigneeName(workBook,
+		Constants.ASSIGNEE_CELL_INDEX,
+		Constants.SITE_ASSIGNMENT_SHEET_INDEX);
+
+	return assigneeName;
+    }
+
+    public String generateDNFile(String assignmentFilePath,
+	    String marketSiteFilePath) {
+
+	// List
+	List<String> siteIdList = getSiteIdList(assignmentFilePath);
+
+	// Map 2G
+	Map<String, String> twoGMap = getBTSBCFNameBTSBCFDNMap(
+		marketSiteFilePath);
+	// Map 3G
+	Map<String, String> threeGMap = getWBTSDNMap(marketSiteFilePath);
+
+	// Map 4G
+	Map<String, String> fourGMap = getLNCELDNMap(marketSiteFilePath);
+
+	// Merged DN List
+	List<String> mergedDNList = getMergedDNList(twoGMap, threeGMap,
+		fourGMap, siteIdList);
+
+	// Get output file name
+	String outputFileName = getOutputFileName(assignmentFilePath);
+
+	// Save output file
+	WorkbookFileUtil.createWorkbookToFilePath(mergedDNList, outputFileName);
+
+	return outputFileName;
     }
 
 }
