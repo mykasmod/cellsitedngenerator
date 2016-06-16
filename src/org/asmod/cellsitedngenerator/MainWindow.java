@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -26,11 +25,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import org.apache.tools.ant.Main;
-import org.asmod.cellsitedngenerator.Constants;
 import org.asmod.cellsitedngenerator.business.ExcelFileService;
 import org.asmod.cellsitedngenerator.business.ExcelFileServiceImpl;
-import javax.swing.JList;
 
 public class MainWindow extends JFrame {
 
@@ -48,7 +44,7 @@ public class MainWindow extends JFrame {
     private Task task;
     private JButton btnGenerateDNList = new JButton("Generate DN List File(s)");
     private static JTextArea textAreaLogger = new JTextArea();
-    
+
     /**
      * Launch the application.
      */
@@ -68,7 +64,7 @@ public class MainWindow extends JFrame {
     /**
      * Create the frame.
      */
-    //public MainWindow() {
+    // public MainWindow() {
     private MainWindow() {
 	setTitle("Powered by Java Swing, Apache POI");
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -177,23 +173,20 @@ public class MainWindow extends JFrame {
 	    public void actionPerformed(ActionEvent e) {
 		// TODO: business logic
 		// TODO: Improve progress and thread using Swingworker
-	        
-	        
-	        try {
-	            btnGenerateDNList.setText("Generating DN List...");
 
-	            progressBar.setValue(0);
-	            task = new Task();
-	            task.start();
+		try {
+		    btnGenerateDNList.setText("Generating DN List...");
 
-            } catch (Exception e2) {
-               List<String> loggerList = new ArrayList<String>();
-               btnGenerateDNList.setText("Generate DN List File(s)");
-               loggerList.add(e2.getMessage());               
-               setTextAreaLoggerText(loggerList);
-               
-            }
-		
+		    progressBar.setValue(0);
+		    task = new Task();
+		    task.start();
+
+		} catch (Exception e2) {
+		    btnGenerateDNList.setText("Generate DN List File(s)");
+		    setTextAreaLoggerText(e2.getMessage());
+
+		}
+
 	    }
 	});
 	panel_9.add(btnGenerateDNList);
@@ -224,23 +217,21 @@ public class MainWindow extends JFrame {
 	JPanel panel_10 = new JPanel();
 	panel_7.add(panel_10, BorderLayout.SOUTH);
 	panel_10.setLayout(new BorderLayout(0, 0));
-	
+
 	JPanel panel_11 = new JPanel();
 	panel_10.add(panel_11, BorderLayout.NORTH);
 	panel_11.setLayout(new BorderLayout(0, 0));
-	
+
 	JScrollPane scrollPane_3 = new JScrollPane();
 	panel_11.add(scrollPane_3, BorderLayout.NORTH);
-	
+
 	textAreaLogger.setRows(4);
 	scrollPane_3.setViewportView(textAreaLogger);
-		
+
 	progressBar.setValue(0);
 	progressBar.setStringPainted(true);
 	panel_10.add(progressBar, BorderLayout.SOUTH);
-	
-	
-	
+
 	JTextArea txtrThisApplicationWill = new JTextArea();
 	midPanel.add(txtrThisApplicationWill, BorderLayout.SOUTH);
 	txtrThisApplicationWill.setText(
@@ -276,9 +267,6 @@ public class MainWindow extends JFrame {
 	    textArea.setText(selectedFiles);
 	}
     }
-    
-    
-
 
     private void setList(List<String> fileList, String siteTypeFlag) {
 
@@ -384,20 +372,14 @@ public class MainWindow extends JFrame {
 	}
 
     }
-    
+
     /*
-     * Set TextArea Logger 
+     * Set TextArea Logger
      */
-    public static void setTextAreaLoggerText(List<String> files) {
-        if (files.size() > 0) {
-            String selectedFiles = "";
-            selectedFiles = textAreaLogger.getText();
-            for (String filePath : files) {
-                selectedFiles += filePath + "\n";
-            }
-            textAreaLogger.setText(selectedFiles);
-        }
+    public static void setTextAreaLoggerText(String logMessage) {
+	String existingText = textAreaLogger.getText();
+	existingText += logMessage + "\n";
+	textAreaLogger.setText(existingText);
     }
 
-    
 }

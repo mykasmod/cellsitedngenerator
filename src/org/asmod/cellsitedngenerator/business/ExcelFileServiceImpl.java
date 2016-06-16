@@ -30,34 +30,31 @@ public class ExcelFileServiceImpl implements ExcelFileService {
      */
     public HashMap<String, String> getBTSBCFNameBTSBCFDNMap(String filePath) {
 	Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
-	
-	List<String> files = new ArrayList<String>();
+
 	Integer size = 0;
 	String logMessage = null;
-	    
-	    HashMap<String, String> btsNameBTSDNMap = WorksheetUtil
-	            .readWorksheetMap(workBook, Constants.TWO_G_BCF_NAME_CELL_INDEX,
-	                Constants.TWO_G_BTS_DN_CELL_INDEX,          
-	                Constants.TWO_G_SHEET_INDEX);
-	    //logging
-	    size = btsNameBTSDNMap.size();
-	    logMessage = size + Constants.TWO_G_LOGMESSAGE + " at 1st Run";	    
-	    files.add(logMessage);
-	    MainWindow.setTextAreaLoggerText(files);
-	    
-	    HashMap<String, String> btsNameBTSDNMap2 = WorksheetUtil
-	            .readWorksheetMap(workBook, Constants.TWO_G_BCF_NAME_CELL_INDEX,
-	                Constants.TWO_G_BCF_DN_CELL_INDEX,
-	                Constants.TWO_G_SHEET_INDEX);
-	    //logging
-	    files.clear();
-	    size = btsNameBTSDNMap2.size();
-	    logMessage = size + Constants.TWO_G_LOGMESSAGE + " at 2nd Run";        
-        files.add(logMessage);
-        MainWindow.setTextAreaLoggerText(files);
-	    
-	    btsNameBTSDNMap.putAll(btsNameBTSDNMap2);
-	
+
+	HashMap<String, String> btsNameBTSDNMap = WorksheetUtil
+		.readWorksheetMap(workBook, Constants.TWO_G_BCF_NAME_CELL_INDEX,
+			Constants.TWO_G_BTS_DN_CELL_INDEX,
+			Constants.TWO_G_SHEET_INDEX);
+	// logging
+	size = btsNameBTSDNMap.size();
+	logMessage = size + Constants.TWO_G_LOGMESSAGE + " at 1st Run";
+
+	MainWindow.setTextAreaLoggerText(logMessage);
+
+	HashMap<String, String> btsNameBTSDNMap2 = WorksheetUtil
+		.readWorksheetMap(workBook, Constants.TWO_G_BCF_NAME_CELL_INDEX,
+			Constants.TWO_G_BCF_DN_CELL_INDEX,
+			Constants.TWO_G_SHEET_INDEX);
+	// logging
+	size = btsNameBTSDNMap2.size();
+	logMessage = size + Constants.TWO_G_LOGMESSAGE + " at 2nd Run";
+	MainWindow.setTextAreaLoggerText(logMessage);
+
+	btsNameBTSDNMap.putAll(btsNameBTSDNMap2);
+
 	return btsNameBTSDNMap;
     }
 
@@ -71,7 +68,15 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 		workBook, Constants.THREE_G_WBTS_NAME_CELL_INDEX,
 		Constants.THREE_G_DN_CELL_INDEX, Constants.THREE_G_SHEET_INDEX);
 
-	return cleanWBTSDNKey(wBTSDNMap);
+	// logging
+	Integer size = 0;
+	size = wBTSDNMap.size();
+	String logMessage = size + Constants.THREE_G_LOGMESSAGE;
+	MainWindow.setTextAreaLoggerText(logMessage);
+
+	HashMap<String, String> cleanwBTSDNMap = new HashMap<String, String>();
+	cleanwBTSDNMap = cleanWBTSDNKey(wBTSDNMap);
+	return cleanWBTSDNValue(cleanwBTSDNMap);
     }
 
     private HashMap<String, String> cleanWBTSDNKey(
@@ -84,19 +89,36 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 	    String key = entry.getKey();
 	    if (!key.equals(null) && key.length() > 8) {
 		cleanKey = key.substring(1);
-		cleanMap.put(cleanKey, entry.getValue());
+	    } else {
+		cleanKey = key;
 	    }
+	    cleanMap.put(cleanKey, entry.getValue());
 	}
-	
-	//logging
-	List<String> files = new ArrayList<String>();
-    Integer size = 0;
-    files.clear();
-    size = cleanMap.size();
-    String logMessage = size + Constants.THREE_G_LOGMESSAGE;        
-    files.add(logMessage);
-    MainWindow.setTextAreaLoggerText(files);
-    
+	return cleanMap;
+    }
+
+    private HashMap<String, String> cleanWBTSDNValue(
+	    HashMap<String, String> map) {
+	HashMap<String, String> cleanMap = new HashMap<String, String>();
+
+	String strippedValue = null;
+	int lastIndexOfSlash = 0;
+	String value = null;
+	for (Entry<String, String> entry : map.entrySet()) {
+	    value = entry.getValue();
+	    if (value.length() > 0) { // stripped all lastIndexOfSlash
+		lastIndexOfSlash = value.lastIndexOf('/');
+		if (lastIndexOfSlash > 20) {
+		    strippedValue = value.substring(0, lastIndexOfSlash);
+		} else {
+		    strippedValue = value;
+		}
+
+	    } else {
+		strippedValue = value;
+	    }
+	    cleanMap.put(entry.getKey(), strippedValue);
+	}
 	return cleanMap;
     }
 
@@ -127,16 +149,16 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 		cleanMap.put(cleanKey, entry.getValue());
 	    }
 	}
-	
-	//logging
-    List<String> files = new ArrayList<String>();
-    Integer size = 0;
-    files.clear();
-    size = cleanMap.size();
-    String logMessage = size + Constants.FOUR_G_LOGMESSAGE;        
-    files.add(logMessage);
-    MainWindow.setTextAreaLoggerText(files);
-    
+
+	// logging
+	List<String> files = new ArrayList<String>();
+	Integer size = 0;
+	files.clear();
+	size = cleanMap.size();
+	String logMessage = size + Constants.FOUR_G_LOGMESSAGE;
+
+	MainWindow.setTextAreaLoggerText(logMessage);
+
 	return cleanMap;
     }
 
