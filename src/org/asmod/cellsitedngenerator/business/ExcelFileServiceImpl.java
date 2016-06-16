@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.asmod.cellsitedngenerator.Constants;
+import org.asmod.cellsitedngenerator.MainWindow;
 import org.asmod.cellsitedngenerator.business.util.WorkbookFileUtil;
 import org.asmod.cellsitedngenerator.business.util.WorksheetUtil;
 
@@ -29,19 +30,34 @@ public class ExcelFileServiceImpl implements ExcelFileService {
      */
     public HashMap<String, String> getBTSBCFNameBTSBCFDNMap(String filePath) {
 	Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
-
-	HashMap<String, String> btsNameBTSDNMap = WorksheetUtil
-		.readWorksheetMap(workBook, Constants.TWO_G_BTS_NAME_CELL_INDEX,
-			Constants.TWO_G_BTS_DN_CELL_INDEX,
-			Constants.TWO_G_SHEET_INDEX);
-
-	HashMap<String, String> btsNameBTSDNMap2 = WorksheetUtil
-		.readWorksheetMap(workBook, Constants.TWO_G_BCF_NAME_CELL_INDEX,
-			Constants.TWO_G_BCF_DN_CELL_INDEX,
-			Constants.TWO_G_SHEET_INDEX);
-
-	btsNameBTSDNMap.putAll(btsNameBTSDNMap2);
-
+	
+	List<String> files = new ArrayList<String>();
+	Integer size = 0;
+	String logMessage = null;
+	    
+	    HashMap<String, String> btsNameBTSDNMap = WorksheetUtil
+	            .readWorksheetMap(workBook, Constants.TWO_G_BCF_NAME_CELL_INDEX,
+	                Constants.TWO_G_BTS_DN_CELL_INDEX,          
+	                Constants.TWO_G_SHEET_INDEX);
+	    //logging
+	    size = btsNameBTSDNMap.size();
+	    logMessage = size + Constants.TWO_G_LOGMESSAGE + " at 1st Run";	    
+	    files.add(logMessage);
+	    MainWindow.setTextAreaLoggerText(files);
+	    
+	    HashMap<String, String> btsNameBTSDNMap2 = WorksheetUtil
+	            .readWorksheetMap(workBook, Constants.TWO_G_BCF_NAME_CELL_INDEX,
+	                Constants.TWO_G_BCF_DN_CELL_INDEX,
+	                Constants.TWO_G_SHEET_INDEX);
+	    //logging
+	    files.clear();
+	    size = btsNameBTSDNMap2.size();
+	    logMessage = size + Constants.TWO_G_LOGMESSAGE + " at 2nd Run";        
+        files.add(logMessage);
+        MainWindow.setTextAreaLoggerText(files);
+	    
+	    btsNameBTSDNMap.putAll(btsNameBTSDNMap2);
+	
 	return btsNameBTSDNMap;
     }
 
@@ -71,6 +87,16 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 		cleanMap.put(cleanKey, entry.getValue());
 	    }
 	}
+	
+	//logging
+	List<String> files = new ArrayList<String>();
+    Integer size = 0;
+    files.clear();
+    size = cleanMap.size();
+    String logMessage = size + Constants.THREE_G_LOGMESSAGE;        
+    files.add(logMessage);
+    MainWindow.setTextAreaLoggerText(files);
+    
 	return cleanMap;
     }
 
@@ -101,6 +127,16 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 		cleanMap.put(cleanKey, entry.getValue());
 	    }
 	}
+	
+	//logging
+    List<String> files = new ArrayList<String>();
+    Integer size = 0;
+    files.clear();
+    size = cleanMap.size();
+    String logMessage = size + Constants.FOUR_G_LOGMESSAGE;        
+    files.add(logMessage);
+    MainWindow.setTextAreaLoggerText(files);
+    
 	return cleanMap;
     }
 

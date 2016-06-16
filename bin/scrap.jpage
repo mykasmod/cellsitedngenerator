@@ -1,0 +1,84 @@
+#System.out.println("HELLO SCRAP")
+
+#Refactor to get 1 file only of marketsite info - NO NEED Maybe useful if collecting from more multiple files
+
+#Show Error in another window If encountered Error
+
+#get siteid list from 1 assign file - DONE
+
+SiteID
+6BI1006A
+
+
+#get unique id, <important column>
+
+        #get unique id(BCF_NAME), BTS_DN, BCF_DN
+        #2g
+        BCF_NAME
+        6BI1006A
+        
+        	BTS_DN
+        	PLMN-PLMN/BSC-393335/BCF-92/BTS-92
+        
+        	BCF_DN
+        	PLMN-PLMN/BSC-393335/BCF-92
+        	
+        	
+        #get unique id, DN
+        #3g
+        WBTS_NAME
+        6BI1006A
+        	
+        	DN
+        	PLMN-PLMN/RNC-615/WBTS-41012/WCEL-4101211
+        
+        #get unique id, LNCEL_DN
+        #4g
+        LNCEL_CELL_NAME
+        B6DI1092A11
+        
+        #trim (2,8)
+        6DI1092A
+        
+        	LNCEL_DN
+        	PLMN-PLMN/MRBTS-74341/LNBTS-74341/LNCEL-11
+	
+#Perform Trimming before inserting if needed
+        	
+#Create new xls file
+	#insert #2g BTN_DN
+	#insert #2g BCF_DN
+	
+	#insert #3g DN
+	
+	#insert #4g LNCEL_DN
+	
+	
+
+2g,3g,4g marketsitelist(1 file)
+
+1 technician siteassignment (Many files)
+
+
+//TODO:
+#3g
+#REMOVE
+#/WCEL-1331851	
+PLMN-PLMN/RNC-615/WBTS-13318/WCEL-1331851
+
+#SAVE
+PLMN-PLMN/RNC-615/WBTS-13318
+#4g
+#/LNCEL-11
+PLMN-PLMN/MRBTS-74341/LNBTS-74341/LNCEL-11
+#SAVE
+PLMN-PLMN/MRBTS-74341/LNBTS-74341
+
+#4g
+#REMOVE
+#/LNBTS-74341/LNCEL-11
+PLMN-PLMN/MRBTS-74341/LNBTS-74341/LNCEL-11
+#SAVE
+PLMN-PLMN/MRBTS-74341/LNBTS-74341
+#SAVE
+PLMN-PLMN/MRBTS-74341/
