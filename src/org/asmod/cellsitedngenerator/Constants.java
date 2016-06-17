@@ -29,7 +29,11 @@ public interface Constants {
     public static String SAMPLE_FILEPATH_MARKET_SITE = "C:\\Users\\myk\\Downloads\\attachments_2016_06_11\\2G_3G_4G_MarketSiteInfo_06 10 16.xls";
     public static String SAMPLE_FILEPATH_ASSIGNMENT_OUTPUT = "C:\\Users\\myk\\Downloads\\attachments_2016_06_11\\2-Output.xls";
     
-    public static String TWO_G_LOGMESSAGE = " DN Found Matched in 2G";
-    public static String THREE_G_LOGMESSAGE = " DN Found Matched in 3G";
-    public static String FOUR_G_LOGMESSAGE = " DN Found Matched in 4G";
+    public static String TWO_G_LOGMESSAGE = " DN Collected in 2G";
+    public static String THREE_G_LOGMESSAGE = " DN Collected in 3G";
+    public static String FOUR_G_LOGMESSAGE = " DN Collected in 4G";
+    
+    public static String FIRST_RUN = " at First Run";
+    public static String SECOND_RUN = " at Second Run";
+    public static String THIRD_RUN = " at Third Run";
 }

@@ -36,10 +36,6 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 		.readWorksheetMap(workBook, Constants.TWO_G_BCF_NAME_CELL_INDEX,
 			dnCellIndex,
 			Constants.TWO_G_SHEET_INDEX);
-	// logging
-	Integer size = btsNameBTSDNMap.size();
-	MainWindow.setTextAreaLoggerText(size + Constants.TWO_G_LOGMESSAGE);
-
 	return btsNameBTSDNMap;
     }
 
@@ -60,11 +56,6 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 	    cleanDNMap = dnMap;
 	}
 	
-	   // logging
-    Integer size = 0;
-    size = cleanDNMap.size();
-    MainWindow.setTextAreaLoggerText(size + Constants.THREE_G_LOGMESSAGE);
-
 	if(isCleanValue){
 	    return clean3GValue(cleanDNMap);
 	}else{
@@ -99,7 +90,6 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 	String strippedValue = null;
 	int lastIndexOfSlash = 0;
 	String value = null;
-	//String key = null;
 	for (Entry<String, String> entry : map.entrySet()) {
 	    value = entry.getValue();
 	    //key = entry.getKey();
@@ -126,17 +116,23 @@ public class ExcelFileServiceImpl implements ExcelFileService {
      * Get 4G Map
      * 
      */
-    public HashMap<String, String> getLNCELDNMap(String filePath) {
+    public HashMap<String, String> get4GMap(String filePath, boolean isCleanKey) {
 	Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
 
 	HashMap<String, String> lncelDNMap = WorksheetUtil.readWorksheetMap(
 		workBook, Constants.FOUR_G_LNCELL_NAME_INDEX,
 		Constants.FOUR_G_LNCEL_DN_INDEX, Constants.FOUR_G_SHEET_INDEX);
+	if(isCleanKey){
+	    return clean4GKey(lncelDNMap);
+	}
+	    else {
+	   return lncelDNMap;
+	}
 
-	return cleanLNCELDNKey(lncelDNMap);
+	
     }
 
-    private HashMap<String, String> cleanLNCELDNKey(
+    private HashMap<String, String> clean4GKey(
 	    HashMap<String, String> map) {
 
 	HashMap<String, String> cleanMap = new HashMap<String, String>();
@@ -150,32 +146,56 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 	    }
 	}
 
-	// logging
-	List<String> files = new ArrayList<String>();
-	Integer size = 0;
-	files.clear();
-	size = cleanMap.size();
-	String logMessage = size + Constants.FOUR_G_LOGMESSAGE;
-
-	MainWindow.setTextAreaLoggerText(logMessage);
-
 	return cleanMap;
     }
+    
+    private HashMap<String, String> clean4GValue(
+            HashMap<String, String> map) {
+            
+        HashMap<String, String> cleanMap = new HashMap<String, String>();
+
+        String strippedValue = null;
+        int lastIndexOfSlash = 0;
+        String value = null;
+        for (Entry<String, String> entry : map.entrySet()) {
+            value = entry.getValue();
+            if (value.length() > 0) { // stripped all lastIndexOfSlash
+                lastIndexOfSlash = value.lastIndexOf('/');
+                if (lastIndexOfSlash > 8) {
+                    strippedValue = value.substring(0, lastIndexOfSlash);
+                } else {
+                    strippedValue = value;
+                }
+            } else {
+                strippedValue = value;
+            }
+            cleanMap.put(entry.getKey(), strippedValue);
+        }
+        return cleanMap;
+        }
 
     /*
      * Get Merged DN List of all network Map
      */
     public List<String> getMergedDNList(Map<String, String> twoGMap, Map<String, String> twoGMap2,
-	    Map<String, String> threeGMap, Map<String, String> threeGMap2, Map<String, String> threeGMap3, Map<String, String> fourGMap,
+	    Map<String, String> threeGMap, Map<String, String> threeGMap2, Map<String, String> fourGMap, Map<String, String> fourGMap2, Map<String, String> fourGMap3,
 	    List<String> siteIdList) {
 	List<String> mergedDNList = new ArrayList<String>();
 	mergedDNList.addAll(getDNListMatchedSiteID(twoGMap, siteIdList));
+	MainWindow.setTextAreaLoggerText(twoGMap.size() + Constants.TWO_G_LOGMESSAGE  + Constants.FIRST_RUN);
 	mergedDNList.addAll(getDNListMatchedSiteID(twoGMap2, siteIdList));
+	MainWindow.setTextAreaLoggerText(twoGMap2.size() + Constants.TWO_G_LOGMESSAGE + Constants.SECOND_RUN);
 	mergedDNList.addAll(getDNListMatchedSiteID(threeGMap, siteIdList));
+	MainWindow.setTextAreaLoggerText(threeGMap.size() + Constants.THREE_G_LOGMESSAGE + Constants.FIRST_RUN);
 	mergedDNList.addAll(getDNListMatchedSiteID(threeGMap2, siteIdList));
-	mergedDNList.addAll(getDNListMatchedSiteID(threeGMap3, siteIdList));
+	MainWindow.setTextAreaLoggerText(threeGMap2.size() + Constants.THREE_G_LOGMESSAGE + Constants.SECOND_RUN);
 	mergedDNList.addAll(getDNListMatchedSiteID(fourGMap, siteIdList));
-
+	MainWindow.setTextAreaLoggerText(fourGMap.size() + Constants.FOUR_G_LOGMESSAGE + Constants.FIRST_RUN);
+	mergedDNList.addAll(getDNListMatchedSiteID(fourGMap2, siteIdList));
+	MainWindow.setTextAreaLoggerText(fourGMap2.size() + Constants.FOUR_G_LOGMESSAGE + Constants.SECOND_RUN);
+	mergedDNList.addAll(getDNListMatchedSiteID(fourGMap3, siteIdList));
+	MainWindow.setTextAreaLoggerText(fourGMap3.size() + Constants.FOUR_G_LOGMESSAGE + Constants.THIRD_RUN);
+	MainWindow.setTextAreaLoggerText(mergedDNList.size() + " Total Matched with SiteId");
 	return mergedDNList;
     }
 
@@ -221,23 +241,24 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 	// Map 2G
 	//KEEP ALL
 	Map<String, String> twoGMap = get2GMap(marketSiteFilePath, Constants.TWO_G_BTS_DN_CELL_INDEX);
-	// Map 2G2
 	Map<String, String> twoGMap2 = get2GMap(marketSiteFilePath, Constants.TWO_G_BCF_DN_CELL_INDEX);
 	
 	// Map 3G
 	//PLMN-PLMN/RNC-615/WBTS-13311/WCEL-1331112
-	Map<String, String> threeGMap = get3GMap(marketSiteFilePath, true, false); //first save all, nothing to remove - OK
-	// Map 3G
+	Map<String, String> threeGMap = get3GMap(marketSiteFilePath, true, false); //first save all digits, nothing to remove - OK
     HashMap<String, String> threeGMap2 = get3GMap(marketSiteFilePath, false, true); //2nd run, removed WCEL-1332132 - OK
-    // Map 3G 
-    Map<String, String> threeGMap3 = clean3GValue(threeGMap2); //3nd run, removed /WBTS-35018/WCEL-3501811 - OK
+    //Map<String, String> threeGMap3 = clean3GValue(threeGMap2); //3nd run, removed /WBTS-35018/WCEL-3501811 NOT NEEDED FOR 3G
     
     // Map 4G
-	Map<String, String> fourGMap = getLNCELDNMap(marketSiteFilePath);
+    //PLMN-PLMN/MRBTS-74341/LNBTS-74341/LNCEL-11
+	HashMap<String, String> fourGMap = get4GMap(marketSiteFilePath, true); //first run save all digits, clean key  - OK
+	HashMap<String, String> fourGMap2   = clean4GValue(fourGMap); //contains up to LNBTS - OK
+	HashMap<String, String> fourGMap3   = clean4GValue(fourGMap2); //contains up to MRBTS 
+	 
 
 	// Merged DN List
-	List<String> mergedDNList = getMergedDNList(twoGMap, twoGMap2, threeGMap, threeGMap2, threeGMap3,
-		fourGMap, siteIdList);
+	List<String> mergedDNList = getMergedDNList(twoGMap, twoGMap2, threeGMap, threeGMap2,
+		fourGMap, fourGMap2, fourGMap3, siteIdList);
 
 	// Get output file name
 	String outputFileName = getOutputFileName(assignmentFilePath);
