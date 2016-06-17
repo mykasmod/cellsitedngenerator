@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.poi.ss.formula.functions.Value;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.asmod.cellsitedngenerator.Constants;
 import org.asmod.cellsitedngenerator.MainWindow;
@@ -104,7 +105,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 	    //key = entry.getKey();
 	    if (value.length() > 0) { // stripped all lastIndexOfSlash
     		lastIndexOfSlash = value.lastIndexOf('/');
-    		if (lastIndexOfSlash > 20) {
+    		if (lastIndexOfSlash > 8) {
     		    strippedValue = value.substring(0, lastIndexOfSlash);
     		} else {
     		    strippedValue = value;
@@ -165,12 +166,14 @@ public class ExcelFileServiceImpl implements ExcelFileService {
      * Get Merged DN List of all network Map
      */
     public List<String> getMergedDNList(Map<String, String> twoGMap, Map<String, String> twoGMap2,
-	    Map<String, String> threeGMap, Map<String, String> threeGMap2, Map<String, String> fourGMap,
+	    Map<String, String> threeGMap, Map<String, String> threeGMap2, Map<String, String> threeGMap3, Map<String, String> fourGMap,
 	    List<String> siteIdList) {
 	List<String> mergedDNList = new ArrayList<String>();
 	mergedDNList.addAll(getDNListMatchedSiteID(twoGMap, siteIdList));
 	mergedDNList.addAll(getDNListMatchedSiteID(twoGMap2, siteIdList));
 	mergedDNList.addAll(getDNListMatchedSiteID(threeGMap, siteIdList));
+	mergedDNList.addAll(getDNListMatchedSiteID(threeGMap2, siteIdList));
+	mergedDNList.addAll(getDNListMatchedSiteID(threeGMap3, siteIdList));
 	mergedDNList.addAll(getDNListMatchedSiteID(fourGMap, siteIdList));
 
 	return mergedDNList;
@@ -214,23 +217,26 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 
 	// List
 	List<String> siteIdList = getSiteIdList(assignmentFilePath);
-
+	
 	// Map 2G
+	//KEEP ALL
 	Map<String, String> twoGMap = get2GMap(marketSiteFilePath, Constants.TWO_G_BTS_DN_CELL_INDEX);
 	// Map 2G2
 	Map<String, String> twoGMap2 = get2GMap(marketSiteFilePath, Constants.TWO_G_BCF_DN_CELL_INDEX);
 	
 	// Map 3G
-	Map<String, String> threeGMap = get3GMap(marketSiteFilePath, true, false);
-
+	//PLMN-PLMN/RNC-615/WBTS-13311/WCEL-1331112
+	Map<String, String> threeGMap = get3GMap(marketSiteFilePath, true, false); //first save all, nothing to remove - OK
 	// Map 3G
-    Map<String, String> threeGMap2 = get3GMap(marketSiteFilePath, false, true);
-
+    HashMap<String, String> threeGMap2 = get3GMap(marketSiteFilePath, false, true); //2nd run, removed WCEL-1332132 - OK
+    // Map 3G 
+    Map<String, String> threeGMap3 = clean3GValue(threeGMap2); //3nd run, removed /WBTS-35018/WCEL-3501811 - OK
+    
     // Map 4G
 	Map<String, String> fourGMap = getLNCELDNMap(marketSiteFilePath);
 
 	// Merged DN List
-	List<String> mergedDNList = getMergedDNList(twoGMap, twoGMap2, threeGMap, threeGMap2,
+	List<String> mergedDNList = getMergedDNList(twoGMap, twoGMap2, threeGMap, threeGMap2, threeGMap3,
 		fourGMap, siteIdList);
 
 	// Get output file name
