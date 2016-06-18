@@ -125,13 +125,17 @@ public class MainWindow extends JFrame {
 
 	JPanel panel_5 = new JPanel();
 	panel_1.add(panel_5);
-	panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.Y_AXIS));
+	panel_5.setLayout(new BorderLayout(0, 0));
+
+	JPanel panel_13 = new JPanel();
+	panel_5.add(panel_13, BorderLayout.NORTH);
+	panel_13.setLayout(new BoxLayout(panel_13, BoxLayout.X_AXIS));
 
 	JLabel lblNewLabel = new JLabel("Market Site Info File:");
+	panel_13.add(lblNewLabel);
 	lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 	lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
 	lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
-	panel_5.add(lblNewLabel);
 	lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
 	lblNewLabel.setAlignmentY(Component.TOP_ALIGNMENT);
 
@@ -147,13 +151,17 @@ public class MainWindow extends JFrame {
 
 	JPanel panel_6 = new JPanel();
 	panel_1.add(panel_6);
-	panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.Y_AXIS));
+	panel_6.setLayout(new BorderLayout(0, 0));
+
+	JPanel panel_14 = new JPanel();
+	panel_6.add(panel_14, BorderLayout.NORTH);
+	panel_14.setLayout(new BoxLayout(panel_14, BoxLayout.X_AXIS));
 
 	JLabel lblNewLabel_2 = new JLabel("Site Assignment Exported Files:");
+	panel_14.add(lblNewLabel_2);
 	lblNewLabel_2.setAlignmentX(Component.CENTER_ALIGNMENT);
 	lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
 	lblNewLabel_2.setVerticalAlignment(SwingConstants.TOP);
-	panel_6.add(lblNewLabel_2);
 	lblNewLabel_2.setHorizontalAlignment(SwingConstants.LEFT);
 
 	JScrollPane scrollPane_1 = new JScrollPane();
