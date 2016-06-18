@@ -184,13 +184,8 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 	MainWindow.setTextAreaLoggerText(threeGMap.size() + Constants.THREE_G_LOGMESSAGE + Constants.FIRST_RUN);
 	mergedDNList.addAll(getDNListMatchedSiteID(threeGMap2, siteIdList));
 	MainWindow.setTextAreaLoggerText(threeGMap2.size() + Constants.THREE_G_LOGMESSAGE + Constants.SECOND_RUN);
-
 	mergedDNList.addAll(getDNListMatchedSiteID(threeGMap3, siteIdList));
 	MainWindow.setTextAreaLoggerText(threeGMap3.size() + Constants.THREE_G_LOGMESSAGE + Constants.THIRD_RUN);
-	for (Entry<String, String> entry : threeGMap3.entrySet()) {
-	    System.out.println("3G 2nd RUN key " + entry.getKey() + " value " + entry.getValue());
-	    logger.info("3g 3rd RUN | Key: " + entry.getKey() + " Value: " + entry.getValue());
-	}
 	mergedDNList.addAll(getDNListMatchedSiteID(fourGMap, siteIdList));
 	MainWindow.setTextAreaLoggerText(fourGMap.size() + Constants.FOUR_G_LOGMESSAGE + Constants.FIRST_RUN);
 	mergedDNList.addAll(getDNListMatchedSiteID(fourGMap2, siteIdList));
