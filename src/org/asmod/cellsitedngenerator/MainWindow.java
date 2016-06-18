@@ -185,15 +185,20 @@ public class MainWindow extends JFrame {
 	panel_2.add(panel_7, BorderLayout.CENTER);
 	panel_7.setLayout(new BorderLayout(0, 0));
 
-	JLabel lblGeneratedDnList = new JLabel("Generated DN list files(s):");
-	panel_7.add(lblGeneratedDnList, BorderLayout.NORTH);
-	lblGeneratedDnList.setVerticalAlignment(SwingConstants.TOP);
-	lblGeneratedDnList.setHorizontalAlignment(SwingConstants.CENTER);
-	lblGeneratedDnList.setFont(new Font("Tahoma", Font.BOLD, 11));
-	lblGeneratedDnList.setAlignmentX(0.5f);
-
 	JPanel panel_8 = new JPanel();
 	panel_7.add(panel_8, BorderLayout.CENTER);
+	panel_8.setLayout(new BorderLayout(0, 0));
+
+	JPanel panel_12 = new JPanel();
+	panel_8.add(panel_12, BorderLayout.NORTH);
+	panel_12.setLayout(new BoxLayout(panel_12, BoxLayout.X_AXIS));
+
+	JLabel lblGeneratedDnList = new JLabel("Generated DN list files(s):");
+	panel_12.add(lblGeneratedDnList);
+	lblGeneratedDnList.setVerticalAlignment(SwingConstants.TOP);
+	lblGeneratedDnList.setHorizontalAlignment(SwingConstants.LEFT);
+	lblGeneratedDnList.setFont(new Font("Tahoma", Font.BOLD, 11));
+	lblGeneratedDnList.setAlignmentX(0.5f);
 
 	JScrollPane scrollPane_2 = new JScrollPane();
 	panel_8.add(scrollPane_2);
@@ -354,10 +359,10 @@ public class MainWindow extends JFrame {
 			progressBarWorker.setInternalCount(0);
 			generatedFile = excelFileService.generateDNFile(siteAssignFile, marketSiteFile);
 			generatedFileList.add(generatedFile);
+			setTextAreaText(generatedFileList, textAreaGeneratedDNListFiles);
 		    }
-
 		}
-		setTextAreaText(generatedFileList, textAreaGeneratedDNListFiles);
+
 	    }
 	    btnGenerateDNList.setText("Generate DN List File(s)");
 
