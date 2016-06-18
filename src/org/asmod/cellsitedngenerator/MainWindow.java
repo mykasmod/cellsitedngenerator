@@ -328,14 +328,12 @@ public class MainWindow extends JFrame {
 
     class Worker implements Runnable {
 	public void run() {
-	    progressBar.setValue(0);
-	    progressBarWorker.setInternalCount(0);
 
-	    // TODO: REMOVE AFTER TEST
-	    marketSiteInfoFileList.clear();
+	    // TODO: FOR TESTING ONLY REMOVE AFTER TEST
+	    /*marketSiteInfoFileList.clear();
 	    siteAssignmentExportedFilesList.clear();
 	    marketSiteInfoFileList.add(Constants.SAMPLE_FILEPATH_MARKET_SITE);
-	    siteAssignmentExportedFilesList.add(Constants.SAMPLE_FILEPATH_ASSIGNMENT);
+	    siteAssignmentExportedFilesList.add(Constants.SAMPLE_FILEPATH_ASSIGNMENT);*/
 
 	    btnGenerateDNList.setText("Generating DN List...");
 	    if ((marketSiteInfoFileList.size() > 0) && (siteAssignmentExportedFilesList.size() > 0)) {
@@ -346,6 +344,8 @@ public class MainWindow extends JFrame {
 
 		for (String marketSiteFile : marketSiteInfoFileList) {
 		    for (String siteAssignFile : siteAssignmentExportedFilesList) {
+			progressBar.setValue(0);
+			progressBarWorker.setInternalCount(0);
 			generatedFile = excelFileService.generateDNFile(siteAssignFile, marketSiteFile);
 			generatedFileList.add(generatedFile);
 		    }
@@ -354,6 +354,9 @@ public class MainWindow extends JFrame {
 		setTextAreaText(generatedFileList, textAreaGeneratedDNListFiles);
 	    }
 	    btnGenerateDNList.setText("Generate DN List File(s)");
+
+	    MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount()
+		    + (100 - MainWindow.getProgresBarWorkerInternalCount()));
 
 	}
     }
