@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.logging.Logger;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.asmod.cellsitedngenerator.Constants;
 import org.asmod.cellsitedngenerator.MainWindow;
@@ -14,7 +14,7 @@ import org.asmod.cellsitedngenerator.business.util.WorkbookFileUtil;
 import org.asmod.cellsitedngenerator.business.util.WorksheetUtil;
 
 public class ExcelFileServiceImpl implements ExcelFileService {
-    static Logger logger = Logger.getLogger(ExcelFileServiceImpl.class.getName());
+    final static Logger logger = Logger.getLogger(ExcelFileServiceImpl.class);
 
     public List<String> getSiteIdList(String filePath) {
 	Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
@@ -189,6 +189,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 	MainWindow.setTextAreaLoggerText(threeGMap3.size() + Constants.THREE_G_LOGMESSAGE + Constants.THIRD_RUN);
 	for (Entry<String, String> entry : threeGMap3.entrySet()) {
 	    System.out.println("3G 2nd RUN key " + entry.getKey() + " value " + entry.getValue());
+	    logger.info("3g 3rd RUN | Key: " + entry.getKey() + " Value: " + entry.getValue());
 	}
 	mergedDNList.addAll(getDNListMatchedSiteID(fourGMap, siteIdList));
 	MainWindow.setTextAreaLoggerText(fourGMap.size() + Constants.FOUR_G_LOGMESSAGE + Constants.FIRST_RUN);

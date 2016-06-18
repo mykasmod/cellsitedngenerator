@@ -4,7 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 public interface ExcelFileService {
+    final static Logger logger = Logger.getLogger(ExcelFileService.class);
 
     public List<String> getSiteIdList(String filePath);
 

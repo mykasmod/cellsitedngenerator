@@ -25,10 +25,12 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
+import org.apache.log4j.Logger;
 import org.asmod.cellsitedngenerator.business.ExcelFileService;
 import org.asmod.cellsitedngenerator.business.ExcelFileServiceImpl;
 
 public class MainWindow extends JFrame {
+    final static Logger logger = Logger.getLogger(MainWindow.class);
 
     private JPanel contentPane;
     private JFileChooser fileChooser;

@@ -1,6 +1,9 @@
 package org.asmod.cellsitedngenerator;
 
+import org.apache.log4j.Logger;
+
 public interface Constants {
+    final static Logger logger = Logger.getLogger(Constants.class);
 
     public static int SITE_ASSIGNMENT_SHEET_INDEX = 0;
     public static int SITE_ID_CELL_INDEX = 2;

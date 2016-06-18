@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
@@ -11,6 +12,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 public class WorksheetUtil {
+    final static Logger logger = Logger.getLogger(WorksheetUtil.class);
+
     private WorksheetUtil() {
     }
 
@@ -22,8 +25,7 @@ public class WorksheetUtil {
      * 
      * @param cellIndexToSave
      */
-    public static List<String> readWorksheetList(Workbook workBook,
-	    int cellIndexToSave, int sheetIndex) {
+    public static List<String> readWorksheetList(Workbook workBook, int cellIndexToSave, int sheetIndex) {
 
 	Sheet sheet = workBook.getSheetAt(sheetIndex);
 	String stringCellValue = null;
@@ -41,13 +43,11 @@ public class WorksheetUtil {
 			stringCellValue = cell.getDateCellValue().toString();
 
 		    } else {
-			stringCellValue = Double
-				.toString(cell.getNumericCellValue());
+			stringCellValue = Double.toString(cell.getNumericCellValue());
 		    }
 		    break;
 		case Cell.CELL_TYPE_BOOLEAN:
-		    stringCellValue = Boolean
-			    .toString(cell.getBooleanCellValue());
+		    stringCellValue = Boolean.toString(cell.getBooleanCellValue());
 
 		    break;
 		case Cell.CELL_TYPE_FORMULA:
@@ -82,8 +82,8 @@ public class WorksheetUtil {
      * 
      * @param sheetIndex
      */
-    public static HashMap<String, String> readWorksheetMap(Workbook workBook,
-	    int btsNameIndex, int btsDNIndex, int sheetIndex) {
+    public static HashMap<String, String> readWorksheetMap(Workbook workBook, int btsNameIndex, int btsDNIndex,
+	    int sheetIndex) {
 
 	Sheet sheet = workBook.getSheetAt(sheetIndex);
 	String stringCellValue = null;
@@ -102,13 +102,11 @@ public class WorksheetUtil {
 			stringCellValue = cell.getDateCellValue().toString();
 
 		    } else {
-			stringCellValue = Double
-				.toString(cell.getNumericCellValue());
+			stringCellValue = Double.toString(cell.getNumericCellValue());
 		    }
 		    break;
 		case Cell.CELL_TYPE_BOOLEAN:
-		    stringCellValue = Boolean
-			    .toString(cell.getBooleanCellValue());
+		    stringCellValue = Boolean.toString(cell.getBooleanCellValue());
 
 		    break;
 		case Cell.CELL_TYPE_FORMULA:
@@ -138,8 +136,7 @@ public class WorksheetUtil {
      * Get the Assignee Name Cell Value List. We're Interested in 2nd Item Only
      */
 
-    public static String getAssigneeName(Workbook workBook, int cellIndexToSave,
-	    int sheetIndex) {
+    public static String getAssigneeName(Workbook workBook, int cellIndexToSave, int sheetIndex) {
 	Sheet sheet = workBook.getSheetAt(sheetIndex);
 	String stringCellValue = null;
 	List<String> assigneeList = new ArrayList<String>();
@@ -157,13 +154,11 @@ public class WorksheetUtil {
 			stringCellValue = cell.getDateCellValue().toString();
 
 		    } else {
-			stringCellValue = Double
-				.toString(cell.getNumericCellValue());
+			stringCellValue = Double.toString(cell.getNumericCellValue());
 		    }
 		    break;
 		case Cell.CELL_TYPE_BOOLEAN:
-		    stringCellValue = Boolean
-			    .toString(cell.getBooleanCellValue());
+		    stringCellValue = Boolean.toString(cell.getBooleanCellValue());
 
 		    break;
 		case Cell.CELL_TYPE_FORMULA:
