@@ -8,7 +8,7 @@ public class ProgressBarPainter implements Runnable {
     public void run() {
 	while (true) {
 	    try {
-		Thread.sleep(10);
+		Thread.sleep(1);
 		jProgressBar1.repaint();
 	    } catch (InterruptedException ex) {
 		break;

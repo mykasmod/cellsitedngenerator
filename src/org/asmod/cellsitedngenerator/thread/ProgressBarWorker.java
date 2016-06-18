@@ -15,7 +15,7 @@ public class ProgressBarWorker implements Runnable {
 	while (jProgressBar1.getValue() != jProgressBar1.getMaximum()) {
 	    try {
 		// Do some work
-		Thread.sleep(100);
+		Thread.sleep(200);
 		// Update bar
 		jProgressBar1.setValue(internalCount++);
 	    } catch (InterruptedException ex) {
