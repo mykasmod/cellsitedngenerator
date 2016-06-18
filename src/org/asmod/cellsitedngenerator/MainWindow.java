@@ -44,6 +44,7 @@ public class MainWindow extends JFrame {
     private Task task;
     private JButton btnGenerateDNList = new JButton("Generate DN List File(s)");
     private static JTextArea textAreaLogger = new JTextArea();
+    private MainWindowTask mainWindowTask;
 
     /**
      * Launch the application.
@@ -93,8 +94,7 @@ public class MainWindow extends JFrame {
 	nortPanel.add(panel_4);
 	panel_4.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-	JButton btnBrowseMarketSiteInfo = new JButton(
-		"Browse Market Site Info File...");
+	JButton btnBrowseMarketSiteInfo = new JButton("Browse Market Site Info File...");
 	btnBrowseMarketSiteInfo.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		fileChooser(textAreaMarketSiteInfoFile, Constants.MARKET);
@@ -102,8 +102,7 @@ public class MainWindow extends JFrame {
 	});
 	panel_4.add(btnBrowseMarketSiteInfo);
 
-	JButton btnBrowseSiteAssignment = new JButton(
-		"Browse Site Assignment Exported Files...");
+	JButton btnBrowseSiteAssignment = new JButton("Browse Site Assignment Exported Files...");
 	btnBrowseSiteAssignment.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		fileChooser(textAreaSiteAssignment, Constants.ASSIGNMENT);
@@ -181,6 +180,9 @@ public class MainWindow extends JFrame {
 		    task = new Task();
 		    task.start();
 
+		    mainWindowTask = new MainWindowTask();
+		    mainWindowTask.start();
+
 		} catch (Exception e2) {
 		    btnGenerateDNList.setText("Generate DN List File(s)");
 		    setTextAreaLoggerText(e2.getMessage());
@@ -245,8 +247,7 @@ public class MainWindow extends JFrame {
 	contentPane.add(panel, BorderLayout.SOUTH);
 	panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-	JLabel label_1 = new JLabel(
-		"Cell Site DN Generator  Copyright Michael Asmod 2016");
+	JLabel label_1 = new JLabel("Cell Site DN Generator  Copyright Michael Asmod 2016");
 	label_1.setFont(new Font("Tahoma", Font.PLAIN, 10));
 	panel.add(label_1);
 
@@ -290,11 +291,9 @@ public class MainWindow extends JFrame {
 	    File dir = new File(currentDirectory);
 	    fileChooser.setCurrentDirectory(dir);
 	}
-	if (fileChooser.showOpenDialog(
-		MainWindow.this) == JFileChooser.APPROVE_OPTION) {
+	if (fileChooser.showOpenDialog(MainWindow.this) == JFileChooser.APPROVE_OPTION) {
 	    try {
-		setCurrentDirectory(
-			fileChooser.getCurrentDirectory().toString());
+		setCurrentDirectory(fileChooser.getCurrentDirectory().toString());
 		fileList.clear();
 		Integer counter = 0;
 		for (File file : fileChooser.getSelectedFiles()) {
@@ -325,29 +324,6 @@ public class MainWindow extends JFrame {
 
 	public void run() {
 
-	    if ((marketSiteInfoFileList.size() > 0)
-		    && (siteAssignmentExportedFilesList.size() > 0)) {
-
-		ExcelFileService excelFileService = new ExcelFileServiceImpl();
-		List<String> generatedFileList = new ArrayList<String>();
-		String generatedFile = null;
-
-		for (String marketSiteFile : marketSiteInfoFileList) {
-		    for (String siteAssignFile : siteAssignmentExportedFilesList) {
-			generatedFile = excelFileService
-				.generateDNFile(siteAssignFile, marketSiteFile);
-			generatedFileList.add(generatedFile);
-
-		    }
-
-		}
-
-		setTextAreaText(generatedFileList,
-			textAreaGeneratedDNListFiles);
-
-		btnGenerateDNList.setText("Generate DN List File(s)");
-	    }
-
 	    for (int i = 0; i <= 100; i += 10) {
 		final int progress = i;
 		SwingUtilities.invokeLater(new Runnable() {
@@ -369,6 +345,37 @@ public class MainWindow extends JFrame {
 
 	    }
 
+	}
+
+    }
+
+    private class MainWindowTask extends Thread {
+
+	@Override
+	public void run() {
+	    // TODO: REMOVE AFTER TEST
+	    marketSiteInfoFileList.add(Constants.SAMPLE_FILEPATH_MARKET_SITE);
+	    siteAssignmentExportedFilesList.add(Constants.SAMPLE_FILEPATH_ASSIGNMENT);
+
+	    if ((marketSiteInfoFileList.size() > 0) && (siteAssignmentExportedFilesList.size() > 0)) {
+
+		ExcelFileService excelFileService = new ExcelFileServiceImpl();
+		List<String> generatedFileList = new ArrayList<String>();
+		String generatedFile = null;
+
+		for (String marketSiteFile : marketSiteInfoFileList) {
+		    for (String siteAssignFile : siteAssignmentExportedFilesList) {
+			generatedFile = excelFileService.generateDNFile(siteAssignFile, marketSiteFile);
+			generatedFileList.add(generatedFile);
+
+		    }
+
+		}
+
+		setTextAreaText(generatedFileList, textAreaGeneratedDNListFiles);
+
+		btnGenerateDNList.setText("Generate DN List File(s)");
+	    }
 	}
 
     }

@@ -15,11 +15,11 @@ public interface ExcelFileService {
     public HashMap<String, String> get4GMap(String filePath, boolean isCleanKey);
 
     public List<String> getMergedDNList(Map<String, String> twoGMap, Map<String, String> twoGMap2,
-            Map<String, String> threeGMap, Map<String, String> threeGMap2, Map<String, String> fourGMap, Map<String, String> fourGMap2, Map<String, String> fourGMap3,
-            List<String> siteIdList);
+	    Map<String, String> threeGMap, Map<String, String> threeGMap2, Map<String, String> threeGMap3,
+	    Map<String, String> fourGMap, Map<String, String> fourGMap2, Map<String, String> fourGMap3,
+	    List<String> siteIdList);
 
     public String getOutputFileName(String filePath);
 
-    public String generateDNFile(String assignmentFilePath,
-	    String marketSiteFilePath);
+    public String generateDNFile(String assignmentFilePath, String marketSiteFilePath);
 }
