@@ -49,6 +49,7 @@ public class MainWindow extends JFrame {
     private static JTextArea textAreaLogger = new JTextArea();
 
     private static ProgressBarWorker progressBarWorker = new ProgressBarWorker();
+    private Thread previousThread = new Thread();
 
     /**
      * Launch the application.
@@ -90,15 +91,17 @@ public class MainWindow extends JFrame {
 	nortPanel.add(panel_3);
 
 	JLabel lblNewLabel_3 = new JLabel("Cell Site DN Generator");
-	lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 14));
+	lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 16));
 	panel_3.add(lblNewLabel_3);
 	lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 
 	JPanel panel_4 = new JPanel();
+	panel_4.setBackground(new Color(70, 130, 180));
 	nortPanel.add(panel_4);
 	panel_4.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 	JButton btnBrowseMarketSiteInfo = new JButton("Browse Market Site Info File...");
+	btnBrowseMarketSiteInfo.setFont(new Font("Tahoma", Font.BOLD, 12));
 	btnBrowseMarketSiteInfo.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		fileChooser(textAreaMarketSiteInfoFile, Constants.MARKET);
@@ -107,6 +110,7 @@ public class MainWindow extends JFrame {
 	panel_4.add(btnBrowseMarketSiteInfo);
 
 	JButton btnBrowseSiteAssignment = new JButton("Browse Site Assignment Exported Files...");
+	btnBrowseSiteAssignment.setFont(new Font("Tahoma", Font.BOLD, 12));
 	btnBrowseSiteAssignment.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		fileChooser(textAreaSiteAssignment, Constants.ASSIGNMENT);
@@ -119,6 +123,7 @@ public class MainWindow extends JFrame {
 	midPanel.setLayout(new BorderLayout(0, 0));
 
 	JPanel panel_1 = new JPanel();
+	panel_1.setBackground(new Color(70, 130, 180));
 	midPanel.add(panel_1, BorderLayout.NORTH);
 	panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 	panel_1.setAutoscrolls(true);
@@ -128,13 +133,14 @@ public class MainWindow extends JFrame {
 	panel_5.setLayout(new BorderLayout(0, 0));
 
 	JPanel panel_13 = new JPanel();
+	panel_13.setBackground(new Color(70, 130, 180));
 	panel_5.add(panel_13, BorderLayout.NORTH);
 	panel_13.setLayout(new BoxLayout(panel_13, BoxLayout.X_AXIS));
 
 	JLabel lblNewLabel = new JLabel("Market Site Info File:");
 	panel_13.add(lblNewLabel);
 	lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-	lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+	lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 	lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
 	lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
 	lblNewLabel.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -154,13 +160,15 @@ public class MainWindow extends JFrame {
 	panel_6.setLayout(new BorderLayout(0, 0));
 
 	JPanel panel_14 = new JPanel();
+	panel_14.setBackground(new Color(70, 130, 180));
 	panel_6.add(panel_14, BorderLayout.NORTH);
 	panel_14.setLayout(new BoxLayout(panel_14, BoxLayout.X_AXIS));
 
 	JLabel lblNewLabel_2 = new JLabel("Site Assignment Exported Files:");
+	lblNewLabel_2.setBackground(new Color(70, 130, 180));
 	panel_14.add(lblNewLabel_2);
 	lblNewLabel_2.setAlignmentX(Component.CENTER_ALIGNMENT);
-	lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+	lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 14));
 	lblNewLabel_2.setVerticalAlignment(SwingConstants.TOP);
 	lblNewLabel_2.setHorizontalAlignment(SwingConstants.LEFT);
 
@@ -178,7 +186,9 @@ public class MainWindow extends JFrame {
 	panel_2.setLayout(new BorderLayout(0, 0));
 
 	JPanel panel_9 = new JPanel();
+	panel_9.setBackground(new Color(70, 130, 180));
 	panel_2.add(panel_9, BorderLayout.NORTH);
+	btnGenerateDNList.setFont(new Font("Tahoma", Font.BOLD, 12));
 
 	btnGenerateDNList.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
@@ -198,14 +208,16 @@ public class MainWindow extends JFrame {
 	panel_8.setLayout(new BorderLayout(0, 0));
 
 	JPanel panel_12 = new JPanel();
+	panel_12.setBackground(new Color(70, 130, 180));
 	panel_8.add(panel_12, BorderLayout.NORTH);
 	panel_12.setLayout(new BoxLayout(panel_12, BoxLayout.X_AXIS));
 
 	JLabel lblGeneratedDnList = new JLabel("Generated DN list files(s):");
+	lblGeneratedDnList.setBackground(new Color(70, 130, 180));
 	panel_12.add(lblGeneratedDnList);
 	lblGeneratedDnList.setVerticalAlignment(SwingConstants.TOP);
 	lblGeneratedDnList.setHorizontalAlignment(SwingConstants.LEFT);
-	lblGeneratedDnList.setFont(new Font("Tahoma", Font.BOLD, 11));
+	lblGeneratedDnList.setFont(new Font("Tahoma", Font.BOLD, 14));
 	lblGeneratedDnList.setAlignmentX(0.5f);
 
 	JScrollPane scrollPane_2 = new JScrollPane();
@@ -218,18 +230,24 @@ public class MainWindow extends JFrame {
 	textAreaGeneratedDNListFiles.setBackground(Color.GRAY);
 
 	JPanel panel_10 = new JPanel();
+	panel_10.setBackground(new Color(70, 130, 180));
 	panel_7.add(panel_10, BorderLayout.SOUTH);
 	panel_10.setLayout(new BorderLayout(0, 0));
 
 	JPanel panel_11 = new JPanel();
+	panel_11.setBackground(new Color(70, 130, 180));
 	panel_10.add(panel_11, BorderLayout.NORTH);
 	panel_11.setLayout(new BorderLayout(0, 0));
 
 	JLabel lblNewLabel_1 = new JLabel("Log Events:");
+	lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+	lblNewLabel_1.setBackground(new Color(70, 130, 180));
 	panel_11.add(lblNewLabel_1, BorderLayout.NORTH);
 
 	JScrollPane scrollPane_3 = new JScrollPane();
 	panel_11.add(scrollPane_3, BorderLayout.CENTER);
+	textAreaLogger.setForeground(new Color(0, 100, 0));
+	textAreaLogger.setBackground(new Color(0, 0, 0));
 
 	textAreaLogger.setRows(4);
 	DefaultCaret caret = (DefaultCaret) textAreaLogger.getCaret();
@@ -244,17 +262,18 @@ public class MainWindow extends JFrame {
 	midPanel.add(txtrThisApplicationWill, BorderLayout.SOUTH);
 	txtrThisApplicationWill.setText(
 		"This application will generate DN list Output file(s) for each \"Site Assignment Exported Files\" gathered from \"Market Site Info File\" source");
-	txtrThisApplicationWill.setBackground(Color.LIGHT_GRAY);
-	txtrThisApplicationWill.setFont(new Font("Tahoma", Font.PLAIN, 13));
+	txtrThisApplicationWill.setBackground(new Color(70, 130, 180));
+	txtrThisApplicationWill.setFont(new Font("Tahoma", Font.BOLD, 12));
 	txtrThisApplicationWill.setWrapStyleWord(true);
 	txtrThisApplicationWill.setLineWrap(true);
 
 	JPanel panel = new JPanel();
+	panel.setBackground(new Color(70, 130, 180));
 	contentPane.add(panel, BorderLayout.SOUTH);
 	panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 	JLabel label_1 = new JLabel("Cell Site DN Generator  Copyright Michael Asmod 2016");
-	label_1.setFont(new Font("Tahoma", Font.PLAIN, 10));
+	label_1.setFont(new Font("Tahoma", Font.BOLD, 10));
 	panel.add(label_1);
 
     }
@@ -334,7 +353,15 @@ public class MainWindow extends JFrame {
 
 	Worker workerThread = new Worker();
 	Thread workerThreadStarter = new Thread(workerThread);
+	if (!previousThread.equals(null)) {
+	    if (previousThread.isAlive()) {
+		previousThread.getThreadGroup().interrupt();
+	    }
+	}
+
 	workerThreadStarter.start();
+	previousThread = workerThreadStarter;
+
 	Thread progressBarPainterStarter = new Thread(progressBarPainter);
 	progressBarPainterStarter.start();
 

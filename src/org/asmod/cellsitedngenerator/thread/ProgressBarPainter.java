@@ -13,6 +13,7 @@ public class ProgressBarPainter implements Runnable {
 	    } catch (InterruptedException ex) {
 		break;
 	    }
+	    Thread.currentThread().interrupt();
 	}
     }
 
