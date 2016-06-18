@@ -23,6 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.DefaultCaret;
 
 import org.apache.log4j.Logger;
 import org.asmod.cellsitedngenerator.business.ExcelFileService;
@@ -211,10 +212,15 @@ public class MainWindow extends JFrame {
 	panel_10.add(panel_11, BorderLayout.NORTH);
 	panel_11.setLayout(new BorderLayout(0, 0));
 
+	JLabel lblNewLabel_1 = new JLabel("Log Events:");
+	panel_11.add(lblNewLabel_1, BorderLayout.NORTH);
+
 	JScrollPane scrollPane_3 = new JScrollPane();
-	panel_11.add(scrollPane_3, BorderLayout.NORTH);
+	panel_11.add(scrollPane_3, BorderLayout.CENTER);
 
 	textAreaLogger.setRows(4);
+	DefaultCaret caret = (DefaultCaret) textAreaLogger.getCaret();
+	caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 	scrollPane_3.setViewportView(textAreaLogger);
 
 	progressBar.setValue(0);
