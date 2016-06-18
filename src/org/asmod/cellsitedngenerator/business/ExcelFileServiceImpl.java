@@ -213,7 +213,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
      */
     public String getOutputFileName(String filePath) {
 	int lastIndexOfSlash = filePath.lastIndexOf('\\');
-	String outputFullFileName = filePath.substring(0, lastIndexOfSlash) + '\\' + getAssigneeName(filePath) + "."
+	String outputFullFileName = filePath.substring(0, lastIndexOfSlash) + '\\' + getAssigneeName(filePath)
 		+ Constants.FILE_EXTENSION;
 	return outputFullFileName;
     }
@@ -227,10 +227,21 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 	return assigneeName;
     }
 
+    private String getExtension(String filepath) {
+	return filepath.substring(filepath.lastIndexOf('.'), filepath.length());
+    }
+
     public String generateDNFile(String assignmentFilePath, String marketSiteFilePath) {
 
 	// Get output file name
 	String outputFileName = null;
+
+	if (!Constants.FILE_EXTENSION.equalsIgnoreCase(getExtension(marketSiteFilePath))
+		|| !Constants.FILE_EXTENSION.equalsIgnoreCase(getExtension(assignmentFilePath))) {
+	    MainWindow.setTextAreaLoggerText(Constants.INVALID_EXTENSION_MESSAGE);
+	    logger.info(Constants.INVALID_EXTENSION_MESSAGE);
+	    return null;
+	}
 
 	// List
 	List<String> siteIdList = getSiteIdList(assignmentFilePath);

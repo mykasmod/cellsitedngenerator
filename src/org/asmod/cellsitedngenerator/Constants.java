@@ -23,7 +23,7 @@ public interface Constants {
     public static int FOUR_G_LNCEL_DN_INDEX = 2;
 
     public static int ASSIGNEE_CELL_INDEX = 6;
-    public static String FILE_EXTENSION = "xls";
+    public static String FILE_EXTENSION = ".xls";
 
     public static String MARKET = "market";
     public static String ASSIGNMENT = "assignment";
@@ -39,4 +39,6 @@ public interface Constants {
     public static String FIRST_RUN = " at First Run";
     public static String SECOND_RUN = " at Second Run";
     public static String THIRD_RUN = " at Third Run";
+
+    public static String INVALID_EXTENSION_MESSAGE = "Can't proceed with Invalid Extension. Only \".xls\" is allowed. Open Excel file and Save As... \"Excel 97-2003\"";
 }

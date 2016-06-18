@@ -13,6 +13,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.asmod.cellsitedngenerator.Constants;
+import org.asmod.cellsitedngenerator.MainWindow;
 
 public class WorkbookFileUtil {
     final static Logger logger = Logger.getLogger(WorkbookFileUtil.class);
@@ -32,12 +34,13 @@ public class WorkbookFileUtil {
 	    // workBook = new XSSFWorkbook(file); // new HSSFWorkbook(file);
 	    workBook = WorkbookFactory.create(file);
 	    // logger.info(workBook); // TODO: REMOVE
-	} catch (FileNotFoundException e) {
+	    /*} catch (FileNotFoundException e) {
 	    logger.error(e.getMessage());
-
-	} catch (IOException e) {
-	    logger.error(e.getMessage());
+	    } catch (IOException e) {
+	    logger.error(e.getMessage());*/
 	} catch (Exception e) {
+	    MainWindow.setTextAreaLoggerText(e.getMessage());
+	    MainWindow.setTextAreaLoggerText(Constants.INVALID_EXTENSION_MESSAGE);
 	    logger.error(e.getMessage());
 	} finally {
 	    try {
