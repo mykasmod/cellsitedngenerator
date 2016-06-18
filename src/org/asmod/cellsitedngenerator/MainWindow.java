@@ -150,6 +150,7 @@ public class MainWindow extends JFrame {
 	JScrollPane scrollPane = new JScrollPane();
 
 	panel_5.add(scrollPane);
+	textAreaMarketSiteInfoFile.setFont(new Font("Monospaced", Font.BOLD, 12));
 	textAreaMarketSiteInfoFile.setWrapStyleWord(true);
 
 	scrollPane.setViewportView(textAreaMarketSiteInfoFile);
@@ -176,6 +177,7 @@ public class MainWindow extends JFrame {
 
 	JScrollPane scrollPane_1 = new JScrollPane();
 	panel_6.add(scrollPane_1);
+	textAreaSiteAssignment.setFont(new Font("Monospaced", Font.BOLD, 12));
 	textAreaSiteAssignment.setWrapStyleWord(true);
 	scrollPane_1.setViewportView(textAreaSiteAssignment);
 
@@ -223,6 +225,7 @@ public class MainWindow extends JFrame {
 
 	JScrollPane scrollPane_2 = new JScrollPane();
 	panel_8.add(scrollPane_2);
+	textAreaGeneratedDNListFiles.setFont(new Font("Monospaced", Font.BOLD, 12));
 	textAreaGeneratedDNListFiles.setWrapStyleWord(true);
 
 	scrollPane_2.setViewportView(textAreaGeneratedDNListFiles);
@@ -247,6 +250,7 @@ public class MainWindow extends JFrame {
 
 	JScrollPane scrollPane_3 = new JScrollPane();
 	panel_11.add(scrollPane_3, BorderLayout.CENTER);
+	textAreaLogger.setFont(new Font("Monospaced", Font.BOLD, 12));
 	textAreaLogger.setForeground(new Color(0, 100, 0));
 	textAreaLogger.setBackground(new Color(0, 0, 0));
 
@@ -421,7 +425,11 @@ public class MainWindow extends JFrame {
 			    progressBarWorker.setInternalCount(0);
 
 			    generatedFile = excelFileService.generateDNFile(siteAssignFile, marketSiteFile);
-			    generatedFileList.add(generatedFile);
+			    if (!generatedFile.equals(null)) {
+				generatedFileList.add(generatedFile);
+			    } else {
+				break; // either one file is not .xls
+			    }
 
 			    setTextAreaText(generatedFileList, textAreaGeneratedDNListFiles);
 			    MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount()
