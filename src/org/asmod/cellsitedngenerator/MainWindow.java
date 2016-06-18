@@ -266,7 +266,7 @@ public class MainWindow extends JFrame {
 	JTextArea txtrThisApplicationWill = new JTextArea();
 	midPanel.add(txtrThisApplicationWill, BorderLayout.SOUTH);
 	txtrThisApplicationWill.setText(
-		"This application will generate DN list Output file(s) for each \"Site Assignment Exported Files\" gathered from \"Market Site Info File\" source");
+		"This application will generate DN list file(s) for each \"Site Assignment\" from \"Market Site Info\" source");
 	txtrThisApplicationWill.setBackground(new Color(70, 130, 180));
 	txtrThisApplicationWill.setFont(new Font("Tahoma", Font.BOLD, 12));
 	txtrThisApplicationWill.setWrapStyleWord(true);
