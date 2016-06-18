@@ -21,21 +21,34 @@ public class WorkbookFileUtil {
     }
 
     public static Workbook getWorkBookFromFilePath(String filePath) {
-	FileInputStream file;
+	// TODO: Revisit this whole method later
+	FileInputStream file = null;
 	// HSSFWorkbook workBook = null;
 	Workbook workBook = null;
 
 	try {
+
 	    file = new FileInputStream(filePath);
 	    // workBook = new XSSFWorkbook(file); // new HSSFWorkbook(file);
 	    workBook = WorkbookFactory.create(file);
+	    // logger.info(workBook); // TODO: REMOVE
 	} catch (FileNotFoundException e) {
+	    logger.error(e.getMessage());
 
-	    e.printStackTrace();
 	} catch (IOException e) {
-	    e.printStackTrace();
+	    logger.error(e.getMessage());
 	} catch (Exception e) {
-	    e.printStackTrace();
+	    logger.error(e.getMessage());
+	} finally {
+	    try {
+		file.close();
+	    } catch (IOException e) {
+		// TODO: logger.error(e.getMessage());
+		if (Thread.currentThread().isAlive()) {
+		    Thread.currentThread().getThreadGroup().interrupt();
+		}
+	    }
+
 	}
 
 	return workBook;
@@ -50,12 +63,10 @@ public class WorkbookFileUtil {
 
 	    workbook.write(fileOutputStream);
 	    fileOutputStream.close();
-	    // TODO: CLEAN OR Progress bar; System.out.println(filePath + "
-	    // written successfully");
 	} catch (FileNotFoundException e) {
-	    e.printStackTrace();
+	    logger.error(e.getMessage());
 	} catch (IOException e) {
-	    e.printStackTrace();
+	    logger.error(e.getMessage());
 	}
 
     }

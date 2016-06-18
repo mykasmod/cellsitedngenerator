@@ -430,9 +430,14 @@ public class MainWindow extends JFrame {
 		    }
 		} catch (Exception e) {
 		    logger.error(e.getMessage());
+		    if (previousThread.isAlive()) {
+			previousThread.getThreadGroup().interrupt();
+		    }
+
 		    if (Thread.currentThread().isAlive()) {
 			Thread.currentThread().getThreadGroup().interrupt();
 		    }
+
 		}
 
 		btnGenerateDNList.setText("Generate DN List File(s)");

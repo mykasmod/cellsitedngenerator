@@ -18,7 +18,8 @@ public class ExcelFileServiceImpl implements ExcelFileService {
     private String assigneeName = null;
 
     public List<String> getSiteIdList(String filePath) {
-	Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
+	Workbook workBook = null;
+	workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
 
 	List<String> siteIdList = WorksheetUtil.readWorksheetList(workBook, Constants.SITE_ID_CELL_INDEX,
 		Constants.SITE_ASSIGNMENT_SHEET_INDEX);
