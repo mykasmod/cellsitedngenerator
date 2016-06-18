@@ -427,8 +427,6 @@ public class MainWindow extends JFrame {
 			    generatedFile = excelFileService.generateDNFile(siteAssignFile, marketSiteFile);
 			    if (!generatedFile.equals(null)) {
 				generatedFileList.add(generatedFile);
-			    } else {
-				break; // either one file is not .xls
 			    }
 
 			    setTextAreaText(generatedFileList, textAreaGeneratedDNListFiles);
@@ -438,13 +436,13 @@ public class MainWindow extends JFrame {
 		    }
 		} catch (Exception e) {
 		    logger.error(e.getMessage());
-		    if (previousThread.isAlive()) {
-			previousThread.getThreadGroup().interrupt();
+		    /*if (previousThread.isAlive()) {
+		    previousThread.getThreadGroup().interrupt();
 		    }
-
+		    
 		    if (Thread.currentThread().isAlive()) {
-			Thread.currentThread().getThreadGroup().interrupt();
-		    }
+		    Thread.currentThread().getThreadGroup().interrupt();
+		    }*/
 
 		}
 

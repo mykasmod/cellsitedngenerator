@@ -33,20 +33,19 @@ public class WorkbookFileUtil {
 	    file = new FileInputStream(filePath);
 	    // workBook = new XSSFWorkbook(file); // new HSSFWorkbook(file);
 	    workBook = WorkbookFactory.create(file);
-	    // logger.info(workBook); // TODO: REMOVE
-	    /*} catch (FileNotFoundException e) {
-	    logger.error(e.getMessage());
-	    } catch (IOException e) {
-	    logger.error(e.getMessage());*/
+
 	} catch (Exception e) {
 	    MainWindow.setTextAreaLoggerText(e.getMessage());
 	    MainWindow.setTextAreaLoggerText(Constants.INVALID_EXTENSION_MESSAGE);
 	    logger.error(e.getMessage());
+	    if (Thread.currentThread().isAlive()) {
+		Thread.currentThread().getThreadGroup().interrupt();
+	    }
 	} finally {
 	    try {
 		file.close();
 	    } catch (IOException e) {
-		// TODO: logger.error(e.getMessage());
+		logger.error(e.getMessage());
 		if (Thread.currentThread().isAlive()) {
 		    Thread.currentThread().getThreadGroup().interrupt();
 		}

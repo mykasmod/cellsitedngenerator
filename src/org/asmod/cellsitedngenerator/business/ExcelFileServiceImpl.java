@@ -240,9 +240,12 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 		|| !Constants.FILE_EXTENSION.equalsIgnoreCase(getExtension(assignmentFilePath))) {
 	    MainWindow.setTextAreaLoggerText(Constants.INVALID_EXTENSION_MESSAGE);
 	    logger.info(Constants.INVALID_EXTENSION_MESSAGE);
+	    // TODO: Evaluate further if needed to interrupt here
+	    if (Thread.currentThread().isAlive()) {
+		Thread.currentThread().getThreadGroup().interrupt();
+	    }
 	    return null;
 	}
-
 	// List
 	List<String> siteIdList = getSiteIdList(assignmentFilePath);
 
