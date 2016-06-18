@@ -15,6 +15,7 @@ import org.asmod.cellsitedngenerator.business.util.WorksheetUtil;
 
 public class ExcelFileServiceImpl implements ExcelFileService {
     final static Logger logger = Logger.getLogger(ExcelFileServiceImpl.class);
+    private String assigneeName = null;
 
     public List<String> getSiteIdList(String filePath) {
 	Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
@@ -192,7 +193,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 	MainWindow.setTextAreaLoggerText(fourGMap2.size() + Constants.FOUR_G_LOGMESSAGE + Constants.SECOND_RUN);
 	mergedDNList.addAll(getDNListMatchedSiteID(fourGMap3, siteIdList));
 	MainWindow.setTextAreaLoggerText(fourGMap3.size() + Constants.FOUR_G_LOGMESSAGE + Constants.THIRD_RUN);
-	MainWindow.setTextAreaLoggerText(mergedDNList.size() + " Total Matched with SiteId");
+	MainWindow.setTextAreaLoggerText(mergedDNList.size() + " Total Matched SiteId for " + assigneeName);
 	return mergedDNList;
     }
 
@@ -230,6 +231,9 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 
 	// List
 	List<String> siteIdList = getSiteIdList(assignmentFilePath);
+
+	// Set member var assignee name
+	assigneeName = getAssigneeName(assignmentFilePath);
 
 	int increment = 1;
 
