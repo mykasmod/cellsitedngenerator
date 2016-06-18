@@ -231,52 +231,40 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 	// List
 	List<String> siteIdList = getSiteIdList(assignmentFilePath);
 
+	int increment = 1;
+
 	// Map 2G
 	// KEEP ALL
+	MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
 	Map<String, String> twoGMap = get2GMap(marketSiteFilePath, Constants.TWO_G_BTS_DN_CELL_INDEX);
+
+	MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
 	Map<String, String> twoGMap2 = get2GMap(marketSiteFilePath, Constants.TWO_G_BCF_DN_CELL_INDEX);
 
 	// Map 3G
 	// PLMN-PLMN/RNC-615/WBTS-13311/WCEL-1331112
-	Map<String, String> threeGMap = get3GMap(marketSiteFilePath, true, false); // first
-										   // save
-										   // all
-										   // digits,
-										   // nothing
-										   // to
-										   // remove
-										   // -
-										   // OK
-	HashMap<String, String> threeGMap2 = get3GMap(marketSiteFilePath, false, true); // 2nd
-											// run,
-											// removed
-											// WCEL-1332132
-											// -
-											// OK
-	HashMap<String, String> threeGMap3 = clean3GValue(threeGMap2); // 3nd
-								       // run,
-	// removed /WBTS-35018/WCEL-3501811 NOT NEEDED FOR 3G
+	MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
+	Map<String, String> threeGMap = get3GMap(marketSiteFilePath, true, false);
+
+	MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
+	HashMap<String, String> threeGMap2 = get3GMap(marketSiteFilePath, false, true);
+
+	MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
+	HashMap<String, String> threeGMap3 = clean3GValue(threeGMap2);
 
 	// Map 4G
 	// PLMN-PLMN/MRBTS-74341/LNBTS-74341/LNCEL-11
-	HashMap<String, String> fourGMap = get4GMap(marketSiteFilePath, true); // first
-									       // run
-									       // save
-									       // all
-									       // digits,
-									       // clean
-									       // key
-									       // -
-									       // OK
-	HashMap<String, String> fourGMap2 = clean4GValue(fourGMap); // contains
-								    // up to
-								    // LNBTS -
-								    // OK
-	HashMap<String, String> fourGMap3 = clean4GValue(fourGMap2); // contains
-								     // up to
-								     // MRBTS
+	MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
+	HashMap<String, String> fourGMap = get4GMap(marketSiteFilePath, true);
+
+	MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
+	HashMap<String, String> fourGMap2 = clean4GValue(fourGMap);
+
+	MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
+	HashMap<String, String> fourGMap3 = clean4GValue(fourGMap2);
 
 	// Merged DN List
+	MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
 	List<String> mergedDNList = getMergedDNList(twoGMap, twoGMap2, threeGMap, threeGMap2, threeGMap3, fourGMap,
 		fourGMap2, fourGMap3, siteIdList);
 
@@ -284,6 +272,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 	String outputFileName = getOutputFileName(assignmentFilePath);
 
 	// Save output file
+	MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
 	WorkbookFileUtil.createWorkbookToFilePath(mergedDNList, outputFileName);
 
 	return outputFileName;

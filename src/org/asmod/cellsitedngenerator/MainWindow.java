@@ -22,12 +22,13 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import org.apache.log4j.Logger;
 import org.asmod.cellsitedngenerator.business.ExcelFileService;
 import org.asmod.cellsitedngenerator.business.ExcelFileServiceImpl;
+import org.asmod.cellsitedngenerator.thread.ProgressBarPainter;
+import org.asmod.cellsitedngenerator.thread.ProgressBarWorker;
 
 public class MainWindow extends JFrame {
     final static Logger logger = Logger.getLogger(MainWindow.class);
@@ -43,10 +44,10 @@ public class MainWindow extends JFrame {
     private List<String> siteAssignmentExportedFilesList = new ArrayList<String>();
 
     private JProgressBar progressBar = new JProgressBar();
-    private Task task;
     private JButton btnGenerateDNList = new JButton("Generate DN List File(s)");
     private static JTextArea textAreaLogger = new JTextArea();
-    private MainWindowTask mainWindowTask;
+
+    private static ProgressBarWorker progressBarWorker = new ProgressBarWorker();
 
     /**
      * Launch the application.
@@ -172,25 +173,9 @@ public class MainWindow extends JFrame {
 
 	btnGenerateDNList.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
-		// TODO: business logic
 		// TODO: Improve progress and thread using Swingworker
-
-		try {
-		    btnGenerateDNList.setText("Generating DN List...");
-
-		    progressBar.setValue(0);
-		    task = new Task();
-		    task.start();
-
-		    mainWindowTask = new MainWindowTask();
-		    mainWindowTask.start();
-
-		} catch (Exception e2) {
-		    btnGenerateDNList.setText("Generate DN List File(s)");
-		    setTextAreaLoggerText(e2.getMessage());
-
-		}
-
+		// MainWindow.setProgressBarWorkerProperties(0);
+		doTheDirtyWork();
 	    }
 	});
 	panel_9.add(btnGenerateDNList);
@@ -274,10 +259,12 @@ public class MainWindow extends JFrame {
     private void setList(List<String> fileList, String siteTypeFlag) {
 
 	if (Constants.MARKET.equals(siteTypeFlag)) {
+	    marketSiteInfoFileList.clear();
 	    marketSiteInfoFileList = fileList;
 	}
 
 	if (Constants.ASSIGNMENT.equals(siteTypeFlag)) {
+	    siteAssignmentExportedFilesList.clear();
 	    siteAssignmentExportedFilesList = fileList;
 	}
 
@@ -311,6 +298,7 @@ public class MainWindow extends JFrame {
 		if (fileList.size() > 0) {
 		    setTextAreaText(fileList, textArea);
 		    setList(fileList, fileTypeFlag);
+
 		}
 
 	    } catch (Exception ex) {
@@ -319,46 +307,37 @@ public class MainWindow extends JFrame {
 	}
     }
 
-    private class Task extends Thread {
-	public Task() {
+    private void doTheDirtyWork() {
+	ProgressBarPainter progressBarPainter = new ProgressBarPainter();
+	progressBarPainter.jProgressBar1 = progressBar;
 
-	}
+	// Fill in with the bar you want painted
 
-	public void run() {
+	Worker workerThread = new Worker();
+	Thread workerThreadStarter = new Thread(workerThread);
+	workerThreadStarter.start();
+	Thread progressBarPainterStarter = new Thread(progressBarPainter);
+	progressBarPainterStarter.start();
 
-	    for (int i = 0; i <= 100; i += 10) {
-		final int progress = i;
-		SwingUtilities.invokeLater(new Runnable() {
-		    public void run() {
-			progressBar.setValue(progress);
-			/*
-			 * outputTextArea.setText(outputTextArea.getText() +
-			 * String.format("Completed %d%% of task.\n",
-			 * progress));
-			 */
+	progressBarWorker.setjProgressBar1(progressBar);
 
-		    }
-		});
-
-		try {
-		    Thread.sleep(100);
-		} catch (InterruptedException e) {
-		}
-
-	    }
-
-	}
+	Thread progressBarWorkerThread = new Thread(progressBarWorker);
+	progressBarWorkerThread.start();
 
     }
 
-    private class MainWindowTask extends Thread {
-
-	@Override
+    class Worker implements Runnable {
 	public void run() {
+	    progressBar.setValue(0);
+	    progressBarWorker.setInternalCount(0);
+
 	    // TODO: REMOVE AFTER TEST
+	    marketSiteInfoFileList.clear();
+	    siteAssignmentExportedFilesList.clear();
 	    marketSiteInfoFileList.add(Constants.SAMPLE_FILEPATH_MARKET_SITE);
 	    siteAssignmentExportedFilesList.add(Constants.SAMPLE_FILEPATH_ASSIGNMENT);
 
+	    btnGenerateDNList.setText("Generating DN List...");
 	    if ((marketSiteInfoFileList.size() > 0) && (siteAssignmentExportedFilesList.size() > 0)) {
 
 		ExcelFileService excelFileService = new ExcelFileServiceImpl();
@@ -369,17 +348,14 @@ public class MainWindow extends JFrame {
 		    for (String siteAssignFile : siteAssignmentExportedFilesList) {
 			generatedFile = excelFileService.generateDNFile(siteAssignFile, marketSiteFile);
 			generatedFileList.add(generatedFile);
-
 		    }
 
 		}
-
 		setTextAreaText(generatedFileList, textAreaGeneratedDNListFiles);
-
-		btnGenerateDNList.setText("Generate DN List File(s)");
 	    }
-	}
+	    btnGenerateDNList.setText("Generate DN List File(s)");
 
+	}
     }
 
     /*
@@ -389,6 +365,17 @@ public class MainWindow extends JFrame {
 	String existingText = textAreaLogger.getText();
 	existingText += logMessage + "\n";
 	textAreaLogger.setText(existingText);
+    }
+
+    /*
+     * Progress Bar Worker InternalCount setter
+     */
+    static public void setProgressBarWorkerInternalCount(int internalCount) {
+	progressBarWorker.setInternalCount(internalCount);
+    }
+
+    static public int getProgresBarWorkerInternalCount() {
+	return progressBarWorker.getInternalCount();
     }
 
 }
