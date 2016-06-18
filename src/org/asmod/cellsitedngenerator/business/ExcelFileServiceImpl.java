@@ -32,7 +32,6 @@ public class ExcelFileServiceImpl implements ExcelFileService {
      */
     public HashMap<String, String> get2GMap(String filePath, int dnCellIndex) {
 	Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
-
 	HashMap<String, String> btsNameBTSDNMap = WorksheetUtil.readWorksheetMap(workBook,
 		Constants.TWO_G_BCF_NAME_CELL_INDEX, dnCellIndex, Constants.TWO_G_SHEET_INDEX);
 	return btsNameBTSDNMap;
@@ -229,6 +228,9 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 
     public String generateDNFile(String assignmentFilePath, String marketSiteFilePath) {
 
+	// Get output file name
+	String outputFileName = null;
+
 	// List
 	List<String> siteIdList = getSiteIdList(assignmentFilePath);
 
@@ -272,8 +274,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 	List<String> mergedDNList = getMergedDNList(twoGMap, twoGMap2, threeGMap, threeGMap2, threeGMap3, fourGMap,
 		fourGMap2, fourGMap3, siteIdList);
 
-	// Get output file name
-	String outputFileName = getOutputFileName(assignmentFilePath);
+	outputFileName = getOutputFileName(assignmentFilePath);
 
 	// Save output file
 	MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
