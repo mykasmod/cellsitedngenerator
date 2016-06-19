@@ -42,44 +42,23 @@ public class ExcelFileServiceImpl implements ExcelFileService {
     }
 
     /*
-     * Get 3G WBTS DN Map
+     * Get 3G DN Map
+     * Complete set first, then remove wcel, then wbts, then rnc
+     * @params filePath
+     * @params isCleanKey
+     * @params isCleanValue
      */
-    public HashMap<String, String> get3GMap(String filePath, boolean isCleanKey, boolean isCleanValue) {
+    public HashMap<String, String> get3GMap(String filePath, boolean isCleanValue) {
 	Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
 
-	HashMap<String, String> dnMap = WorksheetUtil.readWorksheetMap(workBook, Constants.THREE_G_WBTS_NAME_CELL_INDEX,
+	HashMap<String, String> dnMap = WorksheetUtil.readWorksheetMap(workBook, Constants.THREE_G_WCELL_NAME_CELL_INDEX,
 		Constants.THREE_G_DN_CELL_INDEX, Constants.THREE_G_SHEET_INDEX);
+    	if (isCleanValue) {
+    	    return clean3GValue(dnMap);
+    	} else {
+    	    return dnMap;
+    	}
 
-	HashMap<String, String> cleanDNMap = new HashMap<String, String>();
-	if (isCleanKey) {
-	    cleanDNMap = clean3GKey(dnMap);
-	} else {
-	    cleanDNMap = dnMap;
-	}
-
-	if (isCleanValue) {
-	    return clean3GValue(cleanDNMap);
-	} else {
-	    return cleanDNMap;
-	}
-
-    }
-
-    private HashMap<String, String> clean3GKey(HashMap<String, String> map) {
-
-	HashMap<String, String> cleanMap = new HashMap<String, String>();
-	String cleanKey = null;
-
-	for (Entry<String, String> entry : map.entrySet()) {
-	    String key = entry.getKey();
-	    if (!key.equals(null) && key.length() > 8) {
-		cleanKey = key.substring(1);
-	    } else {
-		cleanKey = key;
-	    }
-	    cleanMap.put(cleanKey, entry.getValue());
-	}
-	return cleanMap;
     }
 
     private HashMap<String, String> clean3GValue(HashMap<String, String> map) {
@@ -202,14 +181,12 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 
     private List<String> getDNListMatchedSiteID(Map<String, String> gMap, List<String> siteIdList) {
 	List<String> dnList = new ArrayList<String>();
-	//String siteIdPlusValue = null;
 	for (String siteId : siteIdList) {
-	    //its expected that key in the entry always has "8digit_siteid/dnvalue"
+	    //It's agreed that key in the entry always has the format "8digit_siteid/dnvalue"
     	    for(Entry<String, String> entry : gMap.entrySet()){  
-    	            
-    	       if(entry.getKey().contains(siteId)){
-    	           //another way to do it > //if(entry.getKey().substring(0, 8).equals(siteId)){
+    	       if(entry.getKey().contains(siteId)){ //another way to do it > //if(entry.getKey().substring(0, 8).equals(siteId)){
     	           dnList.add(entry.getValue());
+    	           logger.info(entry.getValue() + " added to dn list"); //TODO: REMOVE THIS AFTER test
     	           }
     	       }
     	    }
@@ -280,12 +257,15 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 
 	MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
 	Map<String, String> twoGMap2 = get2GMap(marketSiteFilePath, Constants.TWO_G_BCF_NAME_CELL_INDEX, Constants.TWO_G_BTS_DN_CELL_INDEX);
-
+	
+	//TODO: Going up is OK
+	
 	// Map 3G
 	// PLMN-PLMN/RNC-615/WBTS-13311/WCEL-1331112
 	MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
-	HashMap<String, String> threeGMap = get3GMap(marketSiteFilePath, true, false);
-
+	HashMap<String, String> threeGMap = get3GMap(marketSiteFilePath, false);
+	logger.info(threeGMap);
+	
 	MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
 	HashMap<String, String> threeGMap2 = clean3GValue(threeGMap);
 

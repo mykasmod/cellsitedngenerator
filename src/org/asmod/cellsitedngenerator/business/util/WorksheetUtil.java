@@ -74,7 +74,8 @@ public class WorksheetUtil {
     }
 
     /*
-     * Used by 2G, 3G, 4g getMap to get the Key(Unique and/or contains SiteId of engineer) Value (DN) Map from specific Worksheet
+     * Used by 2G, 3G, 4g getMap to get the Key Value Map from specific Worksheet.
+     * e.g. entry key = (siteid/dn), value =(dn)
      * @param workbook
      * @param btsNameIndex
      * @param btsDNIndex

@@ -13,7 +13,7 @@ public interface ExcelFileService {
 
     public HashMap<String, String> get2GMap(String filePath, int uniqueKeyCellIndex, int dnCellIndex);
 
-    public HashMap<String, String> get3GMap(String filePath, boolean isCleanKey, boolean isCleanValue);
+    public HashMap<String, String> get3GMap(String filePath, boolean isCleanValue);
 
     public HashMap<String, String> get4GMap(String filePath, boolean isCleanKey);
 
