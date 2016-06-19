@@ -425,9 +425,9 @@ public class MainWindow extends JFrame {
 			    progressBarWorker.setInternalCount(0);
 
 			    generatedFile = excelFileService.generateDNFile(siteAssignFile, marketSiteFile);
-			    if (!generatedFile.equals(null)) {
+			   if (!generatedFile.equals(null)) {
 				generatedFileList.add(generatedFile);
-			    }
+			   }
 
 			    setTextAreaText(generatedFileList, textAreaGeneratedDNListFiles);
 			    MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount()

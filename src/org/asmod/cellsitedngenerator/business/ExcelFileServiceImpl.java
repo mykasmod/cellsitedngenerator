@@ -29,13 +29,16 @@ public class ExcelFileServiceImpl implements ExcelFileService {
     }
 
     /*
-     * Get 2G Combined BTS BCF Name and DN Map
-     */
-    public HashMap<String, String> get2GMap(String filePath, int dnCellIndex) {
+     * Get 2G KeyValue Map . The 1st run example passed params are: bcf_name_cell_key, bcf_dn_cell_value.
+     * 
+     * First Run
+     * Use BCF_NAME as key in [key,value]
+     * Use whole column BCF_NAME as key to get BCF_DN
+    */
+    public HashMap<String, String> get2GMap(String filePath, int uniqueKeyCellIndex, int dnCellIndex) {
 	Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
-	HashMap<String, String> btsNameBTSDNMap = WorksheetUtil.readWorksheetMap(workBook,
-		Constants.TWO_G_BCF_NAME_CELL_INDEX, dnCellIndex, Constants.TWO_G_SHEET_INDEX);
-	return btsNameBTSDNMap;
+	HashMap<String, String> twoGKeyValueMap = WorksheetUtil.readWorksheetMap(workBook, uniqueKeyCellIndex, dnCellIndex, Constants.TWO_G_SHEET_INDEX);
+	return twoGKeyValueMap;
     }
 
     /*
@@ -199,14 +202,19 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 
     private List<String> getDNListMatchedSiteID(Map<String, String> gMap, List<String> siteIdList) {
 	List<String> dnList = new ArrayList<String>();
+	//String siteIdPlusValue = null;
 	for (String siteId : siteIdList) {
-	    if (gMap.containsKey(siteId)) {
-		dnList.add(gMap.get(siteId));
-	    }
-	}
-
+	    //its expected that key in the entry always has "8digit_siteid/dnvalue"
+    	    for(Entry<String, String> entry : gMap.entrySet()){  
+    	            
+    	       if(entry.getKey().contains(siteId)){
+    	           //another way to do it > //if(entry.getKey().substring(0, 8).equals(siteId)){
+    	           dnList.add(entry.getValue());
+    	           }
+    	       }
+    	    }
 	return dnList;
-    }
+	}
 
     /*
      * Get OutputFileName
@@ -256,11 +264,22 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 
 	// Map 2G
 	// KEEP ALL
-	MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
-	Map<String, String> twoGMap = get2GMap(marketSiteFilePath, Constants.TWO_G_BTS_DN_CELL_INDEX);
+	
+	//#2G First Run
+	//Use BCF_NAME+BCF_DN as key in [key,value]
+	//Use whole column BCF_NAME+whole BCF_DN as key to get BCF_DN value
+	//
+	MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment); 
+	Map<String, String> twoGMap = get2GMap(marketSiteFilePath, Constants.TWO_G_BCF_NAME_CELL_INDEX, Constants.TWO_G_BCF_DN_CELL_INDEX);
+
+	
+	//#2G Second Run
+	//-1 Concatenate BCF_NAME + BTS_DN, use as KEY in [key,value]
+	//-1 Save BTS_DN as value
+	//-2 Match KEY that contains siteid save BTS_DN
 
 	MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
-	Map<String, String> twoGMap2 = get2GMap(marketSiteFilePath, Constants.TWO_G_BCF_DN_CELL_INDEX);
+	Map<String, String> twoGMap2 = get2GMap(marketSiteFilePath, Constants.TWO_G_BCF_NAME_CELL_INDEX, Constants.TWO_G_BTS_DN_CELL_INDEX);
 
 	// Map 3G
 	// PLMN-PLMN/RNC-615/WBTS-13311/WCEL-1331112

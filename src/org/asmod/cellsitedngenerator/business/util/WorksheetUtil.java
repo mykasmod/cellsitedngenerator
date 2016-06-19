@@ -74,24 +74,23 @@ public class WorksheetUtil {
     }
 
     /*
-     * Reads a String, DNModel Map
-     * 
+     * Used by 2G, 3G, 4g getMap to get the Key(Unique and/or contains SiteId of engineer) Value (DN) Map from specific Worksheet
+     * @param workbook
      * @param btsNameIndex
-     * 
      * @param btsDNIndex
-     * 
      * @param sheetIndex
+     * @returns keyValue, ValueMap 
      */
-    public static HashMap<String, String> readWorksheetMap(Workbook workBook, int btsNameIndex, int btsDNIndex,
+    public static HashMap<String, String> readWorksheetMap(Workbook workBook, int uniqueKeyCellIndex, int dnValueIndex,
 	    int sheetIndex) {
 
 	Sheet sheet = workBook.getSheetAt(sheetIndex);
 	String stringCellValue = null;
-	HashMap<String, String> btsNameBTSDNMap = new HashMap<String, String>();
+	HashMap<String, String> keyValueValueMap = new HashMap<String, String>();
 	for (Row row : sheet) {
 	    int cellIndexCount = 0;
-	    String btsName = "";
-	    String btsDN = "";
+	    String key = "";
+	    String value = "";
 	    for (Cell cell : row) {
 		switch (cell.getCellType()) {
 		case Cell.CELL_TYPE_STRING:
@@ -116,20 +115,20 @@ public class WorksheetUtil {
 		default:
 		}
 
-		if (cellIndexCount == btsNameIndex) {
-		    btsName = stringCellValue;
+		if (cellIndexCount == uniqueKeyCellIndex) {
+		    key = stringCellValue;
 		}
 
-		if (cellIndexCount == btsDNIndex) {
-		    btsDN = stringCellValue;
+		if (cellIndexCount == dnValueIndex) {
+		    value = stringCellValue;
 		}
 
 		cellIndexCount++;
 	    }
-	    btsNameBTSDNMap.put(btsName, btsDN);
+	    keyValueValueMap.put(key+"/"+value, value);
 	}
 
-	return btsNameBTSDNMap;
+	return keyValueValueMap;
     }
 
     /*

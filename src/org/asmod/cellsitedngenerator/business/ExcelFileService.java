@@ -11,7 +11,7 @@ public interface ExcelFileService {
 
     public List<String> getSiteIdList(String filePath);
 
-    public HashMap<String, String> get2GMap(String filePath, int dnCellIndex);
+    public HashMap<String, String> get2GMap(String filePath, int uniqueKeyCellIndex, int dnCellIndex);
 
     public HashMap<String, String> get3GMap(String filePath, boolean isCleanKey, boolean isCleanValue);
 
