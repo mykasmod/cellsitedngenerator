@@ -13,14 +13,12 @@ public interface ExcelFileService {
 
     public HashMap<String, String> get2GMap(String filePath, int uniqueKeyCellIndex, int dnCellIndex);
 
-    public HashMap<String, String> get3GMap(String filePath, boolean isCleanValue);
+    public HashMap<String, String> get3GMap(String filePath);
 
-    public HashMap<String, String> get4GMap(String filePath, boolean isCleanKey);
+    public HashMap<String, String> get4GMap(String filePath);
 
-    public List<String> getMergedDNList(Map<String, String> twoGMap, Map<String, String> twoGMap2,
-	    Map<String, String> threeGMap, Map<String, String> threeGMap2, Map<String, String> threeGMap3,
-	    Map<String, String> fourGMap, Map<String, String> fourGMap2, Map<String, String> fourGMap3,
-	    List<String> siteIdList);
+    public List<String> getMergedDNList(Map<String, String> twoGMap, Map<String, String> twoGMap2, Map<String, String> threeGMap, Map<String, String> threeGMap2, Map<String, String> threeGMap3, Map<String, String> fourGMap,
+            Map<String, String> fourGMap2, Map<String, String> fourGMap3, List<String> siteIdList);
 
     public String getOutputFileName(String filePath);
 

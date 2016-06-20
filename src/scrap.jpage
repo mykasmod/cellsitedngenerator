@@ -81,8 +81,7 @@ PLMN-PLMN/MRBTS-74341/LNBTS-74341/LNCEL-11
 PLMN-PLMN/MRBTS-74341/LNBTS-74341
 
 #4g
-#REMOVE
-#/LNBTS-74341/LNCEL-11
+#Save
 PLMN-PLMN/MRBTS-74341/LNBTS-74341/LNCEL-11
 #SAVE
 PLMN-PLMN/MRBTS-74341/LNBTS-74341
@@ -95,12 +94,14 @@ PLMN-PLMN/MRBTS-74341/
 
 TODO
 
-#4G use whole lncel_cell_name as key in [key, value]
-#4g use only 8digit from 2nd digit to compare w/ assignment siteid
+#4G use whole lncel_cell_name/ as key in [key, value] - DONE
+#4g use only 8digit from 2nd digit to compare w/ assignment siteid - DONE
+4g all three dns are saved
 
-#3G use WCELL_NAME 
-#3G use whole wcell_name/dn as key in [key, value]
-#3G ON/OFF RNC IS INCLUDED OR down to WBTS, WCEL values are saved
+#3G use WCELL_NAME - DONE
+#3G use whole wcell_name/dn as key in [key, value] - DONE
+#3G ON/OFF RNC IS INCLUDED
+#3G  ONLY WBTS, WCEL values are saved - DONE
 
 
 #2G First Run - DONE

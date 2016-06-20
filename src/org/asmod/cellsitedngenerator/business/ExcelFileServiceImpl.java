@@ -48,16 +48,11 @@ public class ExcelFileServiceImpl implements ExcelFileService {
      * @params isCleanValue
      */
     @Override
-    public HashMap<String, String> get3GMap(String filePath, boolean isCleanValue) {
+    public HashMap<String, String> get3GMap(String filePath) {
         Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
 
         HashMap<String, String> dnMap = WorksheetUtil.readWorksheetMap(workBook, Constants.THREE_G_WCELL_NAME_CELL_INDEX, Constants.THREE_G_DN_CELL_INDEX, Constants.THREE_G_SHEET_INDEX);
-        if (isCleanValue) {
-            return clean3GValue(dnMap);
-        } else {
-            return dnMap;
-        }
-
+        return dnMap;
     }
 
     private HashMap<String, String> clean3GValue(HashMap<String, String> map) {
@@ -88,32 +83,10 @@ public class ExcelFileServiceImpl implements ExcelFileService {
      * Get 4G Map
      */
     @Override
-    public HashMap<String, String> get4GMap(String filePath, boolean isCleanKey) {
+    public HashMap<String, String> get4GMap(String filePath) {
         Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
-
         HashMap<String, String> lncelDNMap = WorksheetUtil.readWorksheetMap(workBook, Constants.FOUR_G_LNCELL_NAME_INDEX, Constants.FOUR_G_LNCEL_DN_INDEX, Constants.FOUR_G_SHEET_INDEX);
-        if (isCleanKey) {
-            return clean4GKey(lncelDNMap);
-        } else {
-            return lncelDNMap;
-        }
-
-    }
-
-    private HashMap<String, String> clean4GKey(HashMap<String, String> map) {
-
-        HashMap<String, String> cleanMap = new HashMap<String, String>();
-        String cleanKey = null;
-
-        for (Entry<String, String> entry : map.entrySet()) {
-            String key = entry.getKey();
-            if (!key.equals(null) && key.length() > 8) {
-                cleanKey = key.substring(1, 9);
-                cleanMap.put(cleanKey, entry.getValue());
-            }
-        }
-
-        return cleanMap;
+        return lncelDNMap;
     }
 
     private HashMap<String, String> clean4GValue(HashMap<String, String> map) {
@@ -173,15 +146,8 @@ public class ExcelFileServiceImpl implements ExcelFileService {
             // It's agreed that key in the entry always has the format
             // "8digit_siteid/dnvalue"
             for (Entry<String, String> entry : gMap.entrySet()) {
-                if (entry.getKey().contains(siteId)) { // another way to do it >
-                                                       // //if(entry.getKey().substring(0,
-                                                       // 8).equals(siteId)){
+                if (entry.getKey().contains(siteId)) {
                     dnList.add(entry.getValue());
-                    logger.info(entry.getValue() + " added to dn list"); // TODO:
-                                                                         // REMOVE
-                                                                         // THIS
-                                                                         // AFTER
-                                                                         // test
                 }
             }
         }
@@ -254,12 +220,10 @@ public class ExcelFileServiceImpl implements ExcelFileService {
         // Map 3G
         // PLMN-PLMN/RNC-615/WBTS-13311/WCEL-1331112
         MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
-        HashMap<String, String> threeGMap = get3GMap(marketSiteFilePath, false);
+        HashMap<String, String> threeGMap = get3GMap(marketSiteFilePath);
 
         MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
         HashMap<String, String> threeGMap2 = clean3GValue(threeGMap);
-
-        // TODO: Going up is OK
 
         MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
         HashMap<String, String> threeGMap3 = clean3GValue(threeGMap2);
@@ -267,7 +231,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
         // Map 4G
         // PLMN-PLMN/MRBTS-74341/LNBTS-74341/LNCEL-11
         MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
-        HashMap<String, String> fourGMap = get4GMap(marketSiteFilePath, true);
+        HashMap<String, String> fourGMap = get4GMap(marketSiteFilePath);
 
         MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
         HashMap<String, String> fourGMap2 = clean4GValue(fourGMap);
