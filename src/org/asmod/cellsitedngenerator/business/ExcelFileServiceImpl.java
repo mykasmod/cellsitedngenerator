@@ -225,8 +225,13 @@ public class ExcelFileServiceImpl implements ExcelFileService {
         MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
         HashMap<String, String> threeGMap2 = clean3GValue(threeGMap);
 
-        MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
-        HashMap<String, String> threeGMap3 = clean3GValue(threeGMap2);
+        HashMap<String, String> threeGMap3 = new HashMap<String, String>();
+        if (MainWindow.getChkbox3GRNCIsSelected()) {
+            MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
+            threeGMap3 = clean3GValue(threeGMap2);
+        } else {
+            threeGMap3.clear();
+        }
 
         // Map 4G
         // PLMN-PLMN/MRBTS-74341/LNBTS-74341/LNCEL-11
