@@ -236,7 +236,7 @@ public class MainWindow extends JFrame {
         panel_8.add(panel_12, BorderLayout.NORTH);
         panel_12.setLayout(new BoxLayout(panel_12, BoxLayout.X_AXIS));
 
-        JLabel lblGeneratedDnList = new JLabel("Generated DN list files(s):");
+        JLabel lblGeneratedDnList = new JLabel("Generated DN-list files:");
         lblGeneratedDnList.setBackground(new Color(70, 130, 180));
         panel_12.add(lblGeneratedDnList);
         lblGeneratedDnList.setVerticalAlignment(SwingConstants.TOP);

@@ -20,7 +20,7 @@ public interface Constants {
     public static int THREE_G_DN_CELL_INDEX = 15;
 
     public static int FOUR_G_LNCELL_NAME_INDEX = 0;
-    public static int FOUR_G_LNCEL_DN_INDEX = 2;
+    public static int FOUR_G_LNCEL_DN_INDEX = 1;
 
     public static int ASSIGNEE_CELL_INDEX = 6;
     public static String FILE_EXTENSION = ".xls";
