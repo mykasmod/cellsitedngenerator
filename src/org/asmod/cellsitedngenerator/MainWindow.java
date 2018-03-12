@@ -72,7 +72,6 @@ public class MainWindow extends JFrame {
      */
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
-            @Override
             public void run() {
                 try {
                     MainWindow frame = new MainWindow();
@@ -120,7 +119,6 @@ public class MainWindow extends JFrame {
         JButton btnBrowseMarketSiteInfo = new JButton("Browse Market Site Info File...");
         btnBrowseMarketSiteInfo.setFont(new Font("Tahoma", Font.BOLD, 12));
         btnBrowseMarketSiteInfo.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 fileChooser(textAreaMarketSiteInfoFile, Constants.MARKET);
             }
@@ -130,7 +128,6 @@ public class MainWindow extends JFrame {
         JButton btnBrowseSiteAssignment = new JButton("Browse Site Assignment Exported Files...");
         btnBrowseSiteAssignment.setFont(new Font("Tahoma", Font.BOLD, 12));
         btnBrowseSiteAssignment.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 fileChooser(textAreaSiteAssignment, Constants.ASSIGNMENT);
             }
@@ -212,7 +209,6 @@ public class MainWindow extends JFrame {
         btnGenerateDNList.setFont(new Font("Tahoma", Font.BOLD, 12));
 
         btnGenerateDNList.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: Improve progress
                 doTheDirtyWork();
@@ -392,7 +388,6 @@ public class MainWindow extends JFrame {
     }
 
     class Worker implements Runnable {
-        @Override
         public void run() {
 
             // TODO: FOR FAST TESTING ONLY. SO NO NEED TO BROWSE FOR FILES.

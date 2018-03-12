@@ -2,6 +2,7 @@ package org.asmod.cellsitedngenerator.business.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -69,7 +70,21 @@ public class WorksheetUtil {
     }
 
     private static List<String> cleanSiteIdList(List<String> siteidList) {
-	siteidList.remove(siteidList.indexOf("SiteID"));
+    	//remove invalid siteid if not equal to 8 digits
+    	int siteIdToRemove = 0;
+    	
+    	for (int i = 0; i < siteidList.size(); i++) {
+    		//siteId=(String) ;
+    		if(siteidList.get(i).length() != 8) {
+    			siteIdToRemove = i;
+    			break;
+    		}
+		}   	
+    	
+    	//siteidList.remove(siteidList.indexOf("SiteID"));
+    	siteidList.remove(siteIdToRemove);
+    	
+	
 	return siteidList;
     }
 

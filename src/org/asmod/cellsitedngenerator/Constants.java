@@ -6,23 +6,25 @@ public interface Constants {
     final static Logger logger = Logger.getLogger(Constants.class);
 
     public static int SITE_ASSIGNMENT_SHEET_INDEX = 0;
-    public static int SITE_ID_CELL_INDEX = 2;
+    public static int SITE_ID_CELL_INDEX = 3;
 
     public static int TWO_G_SHEET_INDEX = 2;
     public static int THREE_G_SHEET_INDEX = 1;
     public static int FOUR_G_SHEET_INDEX = 0;
 
-    public static int TWO_G_BCF_NAME_CELL_INDEX = 3;
-    public static int TWO_G_BTS_DN_CELL_INDEX = 2;
-    public static int TWO_G_BCF_DN_CELL_INDEX = 4;
+    public static int TWO_G_BCF_NAME_CELL_INDEX = 4;
+    public static int TWO_G_BTS_DN_CELL_INDEX = 0;
+    public static int TWO_G_BCF_DN_CELL_INDEX = 3;
 
-    public static int THREE_G_WCELL_NAME_CELL_INDEX = 1;
-    public static int THREE_G_DN_CELL_INDEX = 15;
+
+    public static int THREE_G_WCELL_NAME_CELL_INDEX = 0;
+    public static int THREE_G_DN_CELL_INDEX = 1;
 
     public static int FOUR_G_LNCELL_NAME_INDEX = 0;
-    public static int FOUR_G_LNCEL_DN_INDEX = 1;
+    public static int FOUR_G_LNCEL_DN_INDEX = 2;
 
-    public static int ASSIGNEE_CELL_INDEX = 6;
+    public static int ASSIGNEE_CELL_INDEX = 5;
+    
     public static String FILE_EXTENSION = ".xls";
 
     public static String MARKET = "market";

@@ -18,7 +18,6 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 
     private String assigneeName = null;
 
-    @Override
     public List<String> getSiteIdList(String filePath) {
         Workbook workBook = null;
         workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
@@ -34,7 +33,6 @@ public class ExcelFileServiceImpl implements ExcelFileService {
      * bcf_name_cell_key, bcf_dn_cell_value. First Run Use BCF_NAME as key in
      * [key,value] Use whole column BCF_NAME as key to get BCF_DN
      */
-    @Override
     public HashMap<String, String> get2GMap(String filePath, int uniqueKeyCellIndex, int dnCellIndex) {
         Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
         HashMap<String, String> twoGKeyValueMap = WorksheetUtil.readWorksheetMap(workBook, uniqueKeyCellIndex, dnCellIndex, Constants.TWO_G_SHEET_INDEX);
@@ -47,7 +45,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
      * @params isCleanKey
      * @params isCleanValue
      */
-    @Override
+    
     public HashMap<String, String> get3GMap(String filePath) {
         Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
 
@@ -82,7 +80,6 @@ public class ExcelFileServiceImpl implements ExcelFileService {
     /*
      * Get 4G Map
      */
-    @Override
     public HashMap<String, String> get4GMap(String filePath) {
         Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
         HashMap<String, String> lncelDNMap = WorksheetUtil.readWorksheetMap(workBook, Constants.FOUR_G_LNCELL_NAME_INDEX, Constants.FOUR_G_LNCEL_DN_INDEX, Constants.FOUR_G_SHEET_INDEX);
@@ -116,7 +113,6 @@ public class ExcelFileServiceImpl implements ExcelFileService {
     /*
      * Get Merged DN List of all network Map
      */
-    @Override
     public List<String> getMergedDNList(Map<String, String> twoGMap, Map<String, String> twoGMap2, Map<String, String> threeGMap, Map<String, String> threeGMap2, Map<String, String> threeGMap3, Map<String, String> fourGMap,
             Map<String, String> fourGMap2, Map<String, String> fourGMap3, List<String> siteIdList) {
         List<String> mergedDNList = new ArrayList<String>();
@@ -157,7 +153,6 @@ public class ExcelFileServiceImpl implements ExcelFileService {
     /*
      * Get OutputFileName
      */
-    @Override
     public String getOutputFileName(String filePath) {
         int lastIndexOfSlash = filePath.lastIndexOf('\\');
         String outputFullFileName = filePath.substring(0, lastIndexOfSlash) + '\\' + getAssigneeName(filePath) + Constants.FILE_EXTENSION;
@@ -176,7 +171,6 @@ public class ExcelFileServiceImpl implements ExcelFileService {
         return filepath.substring(filepath.lastIndexOf('.'), filepath.length());
     }
 
-    @Override
     public String generateDNFile(String assignmentFilePath, String marketSiteFilePath) {
 
         // Get output file name
