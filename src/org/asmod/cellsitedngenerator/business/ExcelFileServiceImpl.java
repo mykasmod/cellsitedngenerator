@@ -12,6 +12,9 @@ import org.asmod.cellsitedngenerator.Constants;
 import org.asmod.cellsitedngenerator.MainWindow;
 import org.asmod.cellsitedngenerator.business.util.WorkbookFileUtil;
 import org.asmod.cellsitedngenerator.business.util.WorksheetUtil;
+import org.asmod.cellsitedngenerator.io.ConfigProperties;
+import org.asmod.cellsitedngenerator.io.ConfigPropertiesService;
+import org.asmod.cellsitedngenerator.io.ConstantsConfigPropertiesKeys;
 
 public class ExcelFileServiceImpl implements ExcelFileService {
     final static Logger logger = Logger.getLogger(ExcelFileServiceImpl.class);
@@ -20,10 +23,8 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 
     public List<String> getSiteIdList(String filePath) {
         Workbook workBook = null;
-        workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
-
-        List<String> siteIdList = WorksheetUtil.readWorksheetList(workBook, Constants.SITE_ID_CELL_INDEX, Constants.SITE_ASSIGNMENT_SHEET_INDEX);
-
+        workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath); 
+        List<String> siteIdList = WorksheetUtil.readWorksheetList(workBook,  ConfigProperties.getSiteIdCell(), ConfigProperties.getSiteAssignmentSheet());
         return siteIdList;
 
     }
@@ -35,7 +36,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
      */
     public HashMap<String, String> get2GMap(String filePath, int uniqueKeyCellIndex, int dnCellIndex) {
         Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
-        HashMap<String, String> twoGKeyValueMap = WorksheetUtil.readWorksheetMap(workBook, uniqueKeyCellIndex, dnCellIndex, Constants.TWO_G_SHEET_INDEX);
+        HashMap<String, String> twoGKeyValueMap = WorksheetUtil.readWorksheetMap(workBook, uniqueKeyCellIndex, dnCellIndex, ConfigProperties.getTwoGSheet());
         return twoGKeyValueMap;
     }
 
@@ -48,8 +49,8 @@ public class ExcelFileServiceImpl implements ExcelFileService {
     
     public HashMap<String, String> get3GMap(String filePath) {
         Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
-
-        HashMap<String, String> dnMap = WorksheetUtil.readWorksheetMap(workBook, Constants.THREE_G_WCELL_NAME_CELL_INDEX, Constants.THREE_G_DN_CELL_INDEX, Constants.THREE_G_SHEET_INDEX);
+        
+        HashMap<String, String> dnMap = WorksheetUtil.readWorksheetMap(workBook, ConfigProperties.getThreeGWCellNameCell(), ConfigProperties.getThreeGDNCell(), ConfigProperties.getThreeGSheet());
         return dnMap;
     }
 
@@ -82,7 +83,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
      */
     public HashMap<String, String> get4GMap(String filePath) {
         Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
-        HashMap<String, String> lncelDNMap = WorksheetUtil.readWorksheetMap(workBook, Constants.FOUR_G_LNCELL_NAME_INDEX, Constants.FOUR_G_LNCEL_DN_INDEX, Constants.FOUR_G_SHEET_INDEX);
+        HashMap<String, String> lncelDNMap = WorksheetUtil.readWorksheetMap(workBook, ConfigProperties.getFourGLNCellNameCell(), ConfigProperties.getFourGLNCelDNCell(), ConfigProperties.getFourGSheet());
         return lncelDNMap;
     }
 
@@ -162,7 +163,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
     private String getAssigneeName(String filePath) {
         Workbook workBook = WorkbookFileUtil.getWorkBookFromFilePath(filePath);
 
-        String assigneeName = WorksheetUtil.getAssigneeName(workBook, Constants.ASSIGNEE_CELL_INDEX, Constants.SITE_ASSIGNMENT_SHEET_INDEX);
+        String assigneeName = WorksheetUtil.getAssigneeName(workBook, ConfigProperties.getAssignee_Cell(), ConfigProperties.getSiteAssignmentSheet());
 
         return assigneeName;
     }
@@ -201,7 +202,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
         // Use whole column BCF_NAME+whole BCF_DN as key to get BCF_DN value
         //
         MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
-        Map<String, String> twoGMap = get2GMap(marketSiteFilePath, Constants.TWO_G_BCF_NAME_CELL_INDEX, Constants.TWO_G_BCF_DN_CELL_INDEX);
+        Map<String, String> twoGMap = get2GMap(marketSiteFilePath, ConfigProperties.getTwoGBCFNameCell(), ConfigProperties.getTwoGBCFDNCell());
 
         // #2G Second Run
         // -1 Concatenate BCF_NAME + BTS_DN, use as KEY in [key,value]
@@ -209,7 +210,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
         // -2 Match KEY that contains siteid save BTS_DN
 
         MainWindow.setProgressBarWorkerInternalCount(MainWindow.getProgresBarWorkerInternalCount() + increment);
-        Map<String, String> twoGMap2 = get2GMap(marketSiteFilePath, Constants.TWO_G_BCF_NAME_CELL_INDEX, Constants.TWO_G_BTS_DN_CELL_INDEX);
+        Map<String, String> twoGMap2 = get2GMap(marketSiteFilePath, ConfigProperties.getTwoGBCFNameCell(), ConfigProperties.getTwoGBTSDNCell());
 
         // Map 3G
         // PLMN-PLMN/RNC-615/WBTS-13311/WCEL-1331112

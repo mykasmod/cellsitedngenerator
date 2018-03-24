@@ -5,6 +5,9 @@ import org.apache.log4j.Logger;
 public interface Constants {
     final static Logger logger = Logger.getLogger(Constants.class);
 
+   /* 
+    #NO NEED WERE USING CONFIG.PROPERTIES
+    
     public static int SITE_ASSIGNMENT_SHEET_INDEX = 0;
     public static int SITE_ID_CELL_INDEX = 3;
 
@@ -23,7 +26,7 @@ public interface Constants {
     public static int FOUR_G_LNCELL_NAME_INDEX = 0;
     public static int FOUR_G_LNCEL_DN_INDEX = 2;
 
-    public static int ASSIGNEE_CELL_INDEX = 5;
+    public static int ASSIGNEE_CELL_INDEX = 5;*/
     
     public static String FILE_EXTENSION = ".xls";
 

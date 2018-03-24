@@ -29,6 +29,7 @@ import javax.swing.text.DefaultCaret;
 import org.apache.log4j.Logger;
 import org.asmod.cellsitedngenerator.business.ExcelFileService;
 import org.asmod.cellsitedngenerator.business.ExcelFileServiceImpl;
+import org.asmod.cellsitedngenerator.io.ConfigPropertiesService;
 import org.asmod.cellsitedngenerator.thread.ProgressBarPainter;
 import org.asmod.cellsitedngenerator.thread.ProgressBarWorker;
 
@@ -431,7 +432,10 @@ public class MainWindow extends JFrame {
                 }
                 progressBarWorkerThread.start();
                 previousprogressBarWorkerThread = progressBarWorkerThread;
-
+                
+                //init config properties
+                ConfigPropertiesService.initConfigProperties();
+                
                 ExcelFileService excelFileService = new ExcelFileServiceImpl();
                 List<String> generatedFileList = new ArrayList<String>();
                 String generatedFile = null;
